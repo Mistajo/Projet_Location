@@ -69,7 +69,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register/waiting-for-email-verification', name: 'visitor.registration.waiting_for_email_verification', methods: ['GET'])]
+    #[Route('/register/waiting-for-email-verification', name: 'visitor.registration.waiting_for_email_verification')]
     public function waitingForEmailVerification(): Response
     {
         return $this->render('pages/visitor/registration/waiting_for_email_verification.html.twig');
@@ -100,7 +100,7 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Votre adresse email a été vérifiée. Veuillez vous connecter.');
+        $this->addFlash('success', 'Votre adresse email a été vérifié. Veuillez vous connecter.');
 
         return $this->redirectToRoute('visitor.authentication.login');
     }
