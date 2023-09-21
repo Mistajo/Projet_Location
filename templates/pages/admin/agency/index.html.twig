@@ -1,0 +1,16 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}
+	- Admin - Liste des Agences
+{% endblock %}
+
+{% block main %}
+	<h1 class="text-center my-3 display-5">Liste des Agences</h1>
+
+	<div class="d-flex justify-content-end align-items-center my-3">
+		<a class="btn btn-secondary" href="{{path('admin.agency.create')}}">
+			<i class="fa-solid fa-plus"></i>
+			Nouvelle Agence</a>
+
+	</div>
+{% endblock %}
