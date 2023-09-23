@@ -1,0 +1,21 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}
+	- Admin - Description du véhicule :
+	{{ vehicle.name}}
+{% endblock %}
+
+{% block main %}
+	<h1 class="text-center my-3 display-5">Description du véhicule :
+		{{vehicle.name}}</h1>
+
+	<div class="container text-center">
+		{% if vehicle.image %}
+			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" alt="{{ vehicle.name }}" class="img-fluid">
+		{% else %}
+			<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ vehicle.name}}" class="img-fluid">
+		{% endif %}
+
+		{{vehicle.description|raw}}
+	</div>
+{% endblock %}

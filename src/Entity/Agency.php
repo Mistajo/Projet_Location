@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AgencyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -73,6 +75,7 @@ class Agency
     #[ORM\Column(length: 15)]
     private ?string $zipCode = null;
 
+    #[Assert\NotBlank(message: "La description est obligatoire.")]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
@@ -84,7 +87,7 @@ class Agency
     #[Vich\UploadableField(mapping: 'agencies', fileNameProperty: 'image')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $image = null;
 
     #[Gedmo\Timestampable(on: 'create')]
@@ -94,6 +97,14 @@ class Agency
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Vehicle::class, orphanRemoval: true)]
+    private Collection $vehicles;
+
+    public function __construct()
+    {
+        $this->vehicles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -202,21 +213,37 @@ class Agency
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getVehicles(): Collection
     {
-        $this->updatedAt = $updatedAt;
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): static
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
+            $vehicle->setAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): static
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getAgency() === $this) {
+                $vehicle->setAgency(null);
+            }
+        }
 
         return $this;
     }

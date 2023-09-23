@@ -1,20 +1,11 @@
 {% extends 'themes/base_admin.html.twig' %}
 
 {% block title %}
-	- Admin - Nouvelle Agence
-{% endblock %}
-
-
-{% block tinyMCE %}
-	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-	<script>
-		tinymce.init({selector: 'textarea#agency_form_description'});
-	</script>
+	- Admin - Modifier Cette Agence
 {% endblock %}
 
 {% block main %}
-	<h1 class="text-center my-3 display-5">Nouvelle Agence</h1>
-
+	<h1 class="text-center my-3 display-5">Modifier Cette Agence</h1>
 	<div class="container mt-5">
 		<div class="col-md-6 mx-auto">
 			{{ form_start(form) }}
@@ -55,21 +46,28 @@
 					{{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}
 				</div>
 				<div class="col-md-6">
-					<div class="preview-image-title"></div>
-					<div class="preview-image-content"></div>
+					<div class="col-md-6">
+						{% if vehicle.image %}
+							<img src="{{ vich_uploader_asset(vehicle, 'imageFile') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ vehicle.name }}">
+						{% else %}
+							<img src="{{asset('images/vehicles/no_image.jpg') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ vehicle.name}}">
+						{% endif %}
+
+					</div>
 				</div>
-			</div>
-			<div class="mb-3">
-				<label for="">Description</label>
-				<div class="text-danger">{{ form_errors(form.description) }}</div>
-				{{form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}})}}
-			</div>
-			<div class="mb-3">
+
 				<div class="mb-3">
-					<input formnovalidate type="submit" class="btn btn-secondary" value="Créer">
+					<label for="">Description</label>
+					<div class="text-danger">{{ form_errors(form.description) }}</div>
+					{{form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}})}}
 				</div>
-				{{ form_end(form) }}
+				<div class="mb-3">
+
+					<div class="mb-3">
+						<input formnovalidate type="submit" class="btn btn-secondary" value="Modifier">
+					</div>
+					{{ form_end(form) }}
+				</div>
 			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
