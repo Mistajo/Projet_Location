@@ -1,3 +1,5 @@
+{% set pathInfo = app.request.pathinfo %}
+
 <nav class="navbar bg-dark navbar-expand-lg" data-bs-theme="dark">
 	<div class="container-fluid">
 		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{path('visitor.welcome.index')}}"><img src="{{asset('images/logo/Ride-location-logo.png')}}" alt="Ride location logo" class="img-fluid"></a>
@@ -8,23 +10,38 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="{{path('visitor.welcome.index')}}">Accueil</a>
+					<a class="nav-link {{pathInfo ==path('visitor.welcome.index') ? 'active' : " "}}" {{pathInfo ==path('visitor.welcome.index') ? 'aria-current="page"' : " "}} href="{{path('visitor.welcome.index')}}">Accueil</a>
+
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">A Propos</a>
+					<a class="nav-link" href="{{path('visitor.welcome.index')}}#about-us">A Propos</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Nos agences</a>
+					<a class="nav-link" href="{{path('visitor.welcome.index')}}#agency">Nos agences</a>
+
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Nos vehicules</a>
+					<a class="nav-link" href="{{path('visitor.welcome.index')}}#vehicle">Nos vehicules</a>
+
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Contact</a>
+					<a class="nav-link {{pathInfo ==path('visitor.contact.create') ? 'active' : " "}}" {{pathInfo ==path('visitor.contact.create') ? 'aria-current="page"' : " "}} href=" {{path('visitor.contact.create')}} ">Contact</a>
+
+
 				</li>
 			</ul>
 			<ul class="navbar-nav ms-auto">
 				{% if app.user %}
+					{% if "ROLE_ADMIN" in app.user.roles %}
+						<li class="nav-item">
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-secondary shadow" href="{{path('admin.home.dashboard')}}">Espace Admin</a>
+						</li>
+					{% endif %}
+					{% if "ROLE_USER" in app.user.roles %}
+						<li class="nav-item">
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-secondary shadow" href="#">Mon Espace</a>
+						</li>
+					{% endif %}
 					<li class="nav-item">
 						<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-secondary shadow" href="{{path('app.logout')}}">Déconnexion</a>
 					</li>

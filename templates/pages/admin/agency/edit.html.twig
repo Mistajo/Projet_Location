@@ -47,12 +47,11 @@
 				</div>
 				<div class="col-md-6">
 					<div class="col-md-6">
-						{% if vehicle.image %}
-							<img src="{{ vich_uploader_asset(vehicle, 'imageFile') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ vehicle.name }}">
+						{% if agency.image %}
+							<img src="{{ vich_uploader_asset(agency, 'imageFile') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ agency.name }}">
 						{% else %}
-							<img src="{{asset('images/vehicles/no_image.jpg') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ vehicle.name}}">
+							<img src="{{asset('images/vehicles/no_image.jpg') | imagine_filter('admin_vehicle_thumbnail')}}" alt="{{ agency.name}}">
 						{% endif %}
-
 					</div>
 				</div>
 

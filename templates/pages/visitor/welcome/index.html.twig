@@ -4,6 +4,112 @@
 	- Acceuil - Location de voiture
 {% endblock %}
 
+
 {% block main %}
-	<h1 class="text-center my-3 display-5 text-primary">Bienvenue</h1>
+	<main>
+		<header class="header_section">
+			<div class="container mt-5 text-center">
+				<div class="row">
+					<div class="col-md-5 order-md-2 my-2">
+						<img data-aos="flip-right" data-aos-duration="2000" src="{{asset('images/accueil/renault-trezor-9.png')}}" class="img-fluid" alt="Photo de présentation de Jean Dupont">
+					</div>
+					<div class="col-md-7 order-md-1 my-2 d-flex flex-column justify-content-evenly align-content-center">
+						<div>
+							<h1 class="text-secondary">Bienvenue à bord</h1>
+							<h3 class="text-secondary">Location de voitures 7j/7</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<section id="about-us" class="my-3 py-3 bg-light">
+			<h2 class="text-center my-3 display-5">A Propos</h2>
+			<div class="container mt-5">
+				<div class="row">
+					<div class="col-md-5 d-flex justify-content-center align-items-center">
+						<img src="{{asset('images/accueil/about_us.jpg')}}" alt="Présentention de notre société" class="img-fluid">
+					</div>
+					<div class="col-md-7 d-flex flex-colum justify-content-evenly align-items-center">
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga odio iusto ipsa rerum, tempora tempore quia unde atque repellendus suscipit et quas accusantium ad nulla ratione omnis error labore repellat!
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															Tempore numquam eum esse voluptates fugiat aut, facere quod voluptatibus mollitia alias reprehenderit magni quas soluta nobis possimus culpa quaerat quae maxime hic dicta. Id ab perspiciatis quae doloremque nobis?</p>
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga odio iusto ipsa rerum, tempora tempore quia unde atque repellendus suscipit et quas accusantium ad nulla ratione omnis error labore repellat!
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															Tempore numquam eum esse voluptates fugiat aut, facere quod voluptatibus mollitia alias reprehenderit magni quas soluta nobis possimus culpa quaerat quae maxime hic dicta. Id ab perspiciatis quae doloremque nobis?</p>
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga odio iusto ipsa rerum, tempora tempore quia unde atque repellendus suscipit et quas accusantium ad nulla ratione omnis error labore repellat!
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															Tempore numquam eum esse voluptates fugiat aut, facere quod voluptatibus mollitia alias reprehenderit magni quas soluta nobis possimus culpa quaerat quae maxime hic dicta. Id ab perspiciatis quae doloremque nobis?</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="agency" class="my-3 py-3 bg-primary">
+			<h2 class="text-center my-3 display-5 text-secondary">Nos Agences</h2>
+			<div class="container mt5">
+				<div
+					id="myCarousel" class="carousel slide" data-ride="carousel">
+					<!-- Indicateurs -->
+					<ol class="carousel-indicators">
+						{% for agency in agencies %}
+							<li data-target="#myCarousel" data-slide-to="..." {% if loop.first %} class="active" {% endif %}></li>
+						{% endfor %}
+					</ol>
+					<!-- Slides -->
+					<div class="carousel-inner">
+						{% for agency in agencies %}
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<img src="{{ vich_uploader_asset(agency, 'imageFile') }}" alt="..." class="img-fluid centered-image">
+
+								<div class="carousel-caption d-none d-md-block">
+									<h5>{{ agency.name }}</h5>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<!-- Contrôles -->
+					<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Précédent</span>
+					</a>
+					<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Suivant</span>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		{% if vehicles is not empty %}
+			<section id="vehicle" class="my-3 py-3 bg-secondary">
+				<h2 class="text-center my-3 display-5">Nos Vehicules Recents</h2>
+				<div class="container mt-5">
+					<div class="row">
+						{% for vehicle in vehicles %}
+							<div class="col-md-4 mb-4">
+								<div class="card mx-3 border shadow h-100">
+									<img src="{{ vich_uploader_asset(vehicle, 'imageFile') }}" class="card-img-top img-fluide" alt="Image du vehicule">
+									<div class="card-body">
+										<h5 class="card-title">{{ vehicle.name }}</h5>
+										<p class="card-text">Prix Journalier :
+											{{ vehicle.dailyPrice }}
+											€</p>
+										<p class="card-text">{{ vehicle.description|striptags|u.truncate(70, '...')|raw }}</p>
+										<p>
+											<a href="#" class="btn btn-sm btn-primary">Réservez</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		<section class="my-3 py-5 bg-light text-center">
+			<a href="{{path('visitor.contact.create')}}" class="btn btn-lg btn-primary" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
+				Contactez-Nous
+			</a>
+		</section>
+
+	</main>
 {% endblock %}

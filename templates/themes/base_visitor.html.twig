@@ -24,6 +24,10 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
 
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -32,14 +36,25 @@
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+
+		{% block AOS %}
+			<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+		{% endblock %}
 	</head>
-	<body>
+	<body class="rl-body-visitor">
 		{% include "layouts/navbar/navbar_visitor.html.twig" %}
 		<main>
 			{% block main %}{% endblock %}
 		</main>
-		{% include "layouts/footer/footer_visitor.html.twig" %}
-		<script src="https://kit.fontawesome.com/b0028a8555.js" crossorigin="anonymous"></script>
 
+		{% include "layouts/footer/footer_visitor.html.twig" %}
+
+		<script src="https://kit.fontawesome.com/b0028a8555.js" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+		<script>
+			AOS.init();
+		</script>
 	</body>
 </html>

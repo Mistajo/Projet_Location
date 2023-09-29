@@ -30,7 +30,13 @@ url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
 			{{message}}
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
+	{% endfor %}
 
+	{% for message in app.flashes('warning') %}
+		<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
+			{{message}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 	{% endfor %}
 
 	<div class="d-flex justify-content-end align-items-center my-3">
@@ -76,7 +82,13 @@ url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
 							{{agency.zipCode}}
 						</td>
 						<td>
-							<img src="{{ vich_uploader_asset(agency, 'imageFile')}}" alt="{{ agency.name }}">
+							{% if agency.image %}
+								<img src="{{ vich_uploader_asset(agency, 'imageFile') | imagine_filter('admin_agency_thumbnail')}}" alt="{{ agency.name }}">
+							{% else %}
+								<img src="{{asset('images/vehicles/no_image.jpg') | imagine_filter('admin_agency_thumbnail')}}" alt="{{ agency.name}}">
+							{% endif %}
+
+
 						</td>
 						<td>
 							{{agency.description}}
@@ -91,7 +103,7 @@ url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
 							<a title="Modifier" href="{{path('admin.agency.edit',{'id': agency.id})}}" class="text-primary m-2">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</a>
-							<a onclick="event.preventDefault(); return confirm('Confirmer la suppression de cette agence?') && document.querySelector('#form_delete_agency_{{agency.id}}').submit()" title="Supprimer" href="#" class="text-danger m-2">
+							<a onclick="event.preventDefault(); return confirm('Attention!! la suppression de cette agence, entraine aussi la suppression de ses vehicules. voulez vous continuer?') && document.querySelector('#form_delete_agency_{{agency.id}}').submit()" title="Supprimer" href="#" class="text-danger m-2">
 								<i class="fa-solid fa-trash-can"></i>
 							</a>
 							<form method="POST" id="form_delete_agency_{{agency.id}}" action="{{path('admin.agency.delete', {'id':agency.id})}}">

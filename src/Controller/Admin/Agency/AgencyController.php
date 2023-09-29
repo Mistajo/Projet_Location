@@ -53,7 +53,8 @@ class AgencyController extends AbstractController
             return $this->redirectToRoute("admin.agency.index");
         }
         return $this->render("pages/admin/agency/edit.html.twig", [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "agency" => $agency
         ]);
     }
 
@@ -63,7 +64,7 @@ class AgencyController extends AbstractController
         if ($this->isCsrfTokenValid("delete_agency_" . $agency->getId(), $request->request->get("csrf_token"))) {
             $em->remove($agency);
             $em->flush();
-            $this->addFlash("success", "L'agence a bien été supprimée.");
+            $this->addFlash("success", "L'agence"  . $agency->getname() . "a bien été supprimée.");
             return $this->redirectToRoute("admin.agency.index");
         }
         return $this->redirectToRoute("admin.agency.index");

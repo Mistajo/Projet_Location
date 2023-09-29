@@ -87,7 +87,7 @@ class Agency
     #[Vich\UploadableField(mapping: 'agencies', fileNameProperty: 'image')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     #[Gedmo\Timestampable(on: 'create')]
@@ -101,9 +101,13 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Vehicle::class, orphanRemoval: true)]
     private Collection $vehicles;
 
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Comment::class)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,7 +205,7 @@ class Agency
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): static
     {
         $this->image = $image;
 
@@ -242,6 +246,36 @@ class Agency
             // set the owning side to null (unless already changed)
             if ($vehicle->getAgency() === $this) {
                 $vehicle->setAgency(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAgency() === $this) {
+                $comment->setAgency(null);
             }
         }
 
