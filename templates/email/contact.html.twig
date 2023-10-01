@@ -30,7 +30,9 @@
 </ul>
 
 {% if contact_phone is empty %}
-	<p>Le contact n'a pas laissé de numéro de téléphone</p>
+	<p>
+		<strong>{{contact_first_name|capitalize}}</strong>
+		n'a pas laissé de numéro de téléphone</p>
 {% endif %}
 
 <p>Voici son message :</p>

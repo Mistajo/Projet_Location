@@ -69,4 +69,28 @@ class AgencyController extends AbstractController
         }
         return $this->redirectToRoute("admin.agency.index");
     }
+
+    #[Route('/admin/agency/multiple-agencies-delete', name: 'admin.agency.multiple_delete', methods: ['DELETE'])]
+    public function multipleDelete(
+        Request $request,
+        AgencyRepository $agencyRepository,
+        EntityManagerInterface $em
+    ): Response {
+        $csrfTokenValue = $request->request->get('csrf_token');
+        if (!$this->isCsrfTokenValid("multiple_delete_agencies_token_key", $csrfTokenValue)) {
+            return $this->json(
+                ['status' => false, "message" => "Un problème est survenu, veuillez réessayer."],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+        $ids = $request->request->get('ids');
+        $ids = explode(",", $ids);
+        foreach ($ids as $id) {
+            $agency = $agencyRepository->findOneBy(['id' => $id]);
+            $em->remove($agency);
+            $em->flush();
+        }
+        return $this->json(['status' => true, "message" => "La suppression multiple a été effectuée avec succès."]);
+        // return new JsonResponse();
+    }
 }

@@ -143,28 +143,20 @@ class VehicleController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         $csrfTokenValue = $request->request->get('csrf_token');
-
         if (!$this->isCsrfTokenValid("multiple_delete_vehicles_token_key", $csrfTokenValue)) {
             return $this->json(
                 ['status' => false, "message" => "Un problème est survenu, veuillez réessayer."],
                 Response::HTTP_BAD_REQUEST
             );
         }
-
         $ids = $request->request->get('ids');
-
         $ids = explode(",", $ids);
-
         foreach ($ids as $id) {
             $vehicle = $vehicleRepository->findOneBy(['id' => $id]);
-
             $em->remove($vehicle);
             $em->flush();
         }
-
         return $this->json(['status' => true, "message" => "La suppression multiple a été effectuée avec succès."]);
-
-
         // return new JsonResponse();
     }
 }

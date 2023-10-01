@@ -10,9 +10,11 @@
 
 {% block main %}
 	<main>
-		<div class="container my-5">
+		<h1 class="text-center my-3 display-5 mt-5">Contactez-Nous</h1>
+
+		<div class="container my-5 mt-5">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6 mt-5">
 					{% for message in app.flashes('success') %}
 						<div class="alert alert-success alert-dismissible fade show" role="alert">
 							{{message}}
