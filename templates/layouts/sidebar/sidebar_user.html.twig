@@ -1,0 +1,69 @@
+<div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-secondary">
+	<div class="offcanvas-md offcanvas-end bg-secondary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+		<div class="offcanvas-header">
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{path('user.home.index')}}">
+
+						<i class="fa-solid fa-table-columns fa-beat"></i>
+						Tableau de bord
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="{{path('user.agency.index')}}">
+						<i class="fa-solid fa-building"></i>
+						Agences
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="{{path('user.vehicle.index')}}">
+						<i class="fa-solid fa-car"></i>
+						Vehicules
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="#">
+						<i class="fa-solid fa-folder-open"></i>
+						Reservations
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="#">
+						<i class="fa-solid fa-comment-dots"></i>
+						Commentaires
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="#">
+						<i class="fa-solid fa-heart"></i>
+						likes
+					</a>
+				</li>
+			</ul>
+			<hr class="my-3">
+			<ul class="nav flex-column mb-auto">
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="{{path('user.profile.index')}}">
+						<i class="fa-solid fa-user"></i>
+						Mon profil
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="{{path('visitor.welcome.index')}}">
+						<i class="fa-solid fa-rotate-left"></i>
+						Retour au site
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link d-flex align-items-center gap-2" href="{{path('app.logout')}}">
+						<i class="fa-solid fa-right-from-bracket"></i>
+						Déconnexion
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
