@@ -1,0 +1,56 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}
+	- Admin - Mon Profil :
+	{{app.user.firstName}}
+	{{app.user.lastName}}
+
+{% endblock %}
+
+{% block main %}
+	<h1 class="text-center my-3 display-5">Mon Profil :
+		{{app.user.firstName}}
+		{{app.user.lastName}}</h1>
+
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card">
+					<div class="card-header">
+						Profil
+					</div>
+					<div class="card-body">
+						<p class="card-text">
+							<strong>Prénom</strong>
+							:
+							{{app.user.firstName}}</p>
+						<p class="card-text">
+							<strong>Nom</strong>
+							:
+							{{app.user.lastName}}</p>
+						<p class="card-text">
+							<strong>Email</strong>
+							:
+							{{app.user.email}}</p>
+						<p class="card-text">
+							<strong>Adresse</strong>
+							:
+							{{app.user.address}}</p>
+						<p class="card-text">
+							<strong>Ville</strong>
+							:
+							{{app.user.town}}</p>
+						<p class="card-text">
+							<strong>Code Postal</strong>
+							:
+							{{app.user.zipCode}}</p>
+						<a href="#" class="m-2 btn btn-primary">Modifier le profil</a>
+						<a href="#" class="m-2 btn btn-secondary">Modifier le mot de passe</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

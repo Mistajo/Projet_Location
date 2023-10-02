@@ -40,6 +40,11 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Vehicle $vehicle = null;
 
+    public function __construct()
+    {
+        $this->isActivated = true;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
