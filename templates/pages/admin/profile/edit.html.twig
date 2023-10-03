@@ -1,0 +1,63 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}
+	- Admin - Modification Du Profil :
+	{{app.user.firstName}}
+	{{app.user.lastName}}
+{% endblock %}
+
+{% block main %}
+	<h1 class="text-center my-3 display-5">Modification du profil :
+		{{app.user.firstName}}
+		{{app.user.lastName}}</h1>
+
+	<div class="container">
+		<div class="col-md-6 mx-auto">
+			{{ form_start(form) }}
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Prénom</label>
+						{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Nom</label>
+						{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Adresse</label>
+						{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Ville</label>
+						{{ form_widget(form.town, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Code Postal</label>
+						{{ form_widget(form.zipCode, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Email</label>
+						{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+			</div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+
+{% endblock %}

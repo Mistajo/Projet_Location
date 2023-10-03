@@ -1,0 +1,91 @@
+{% extends 'themes/base_user.html.twig' %}
+
+{% block title %}
+	- User -
+	{{vehicle.name}}
+{% endblock %}
+
+{% block main %}
+	<main>
+		<div class="container my-5">
+			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{path('user.vehicle.index')}}">Vehicules</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">{{vehicle.name|u.truncate('50','...')}}</li>
+				</ol>
+			</nav>
+
+			<div class="text-center my-3">
+				<h1 class=" my-3 display-5">{{vehicle.name}}</h1>
+			</div>
+			<div class="text-center">
+				{% if vehicle.image %}
+					<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
+				{% else %}
+					<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
+				{% endif %}
+			</div>
+
+			<article class="my-3 text-center">
+				<p>Description :
+					{{vehicle.description|raw}}</p>
+			</article>
+			<div class="my-3 text-center">
+				<p>Prix Journalier :
+					{{vehicle.dailyPrice}}
+					€</p>
+
+				<a href="" class="btn btn-primary">Reserver</a>
+			</div>
+
+			<div class=" mx-5 my-5"></div>
+
+
+			<div class="mb-5 mx-5" id="create-comment-box">
+				{{ form_start(form,{'action': path('user.vehicle.show', {'id': vehicle.id})~"#create-comment-box"})}}
+
+				<div class="mx-5">
+					<div class="text-danger">{{ form_errors(form.content) }}</div>
+					{{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Laissez un Commentaire...', "rows" : 5}}) }}
+				</div>
+				<div class=" mx-5 my-2">
+					<input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
+				</div>
+				{{ form_end(form) }}
+			</div>
+
+			<div class="my-3 mx-5">
+				{% set count = 0 %}
+				{% if vehicle.comments is empty %}
+					{% for comment in vehicle.comments %}
+						{% if comment.isActivated %}
+							{% set count = count + 1 %}
+						{% endif %}
+					{% endfor %}
+					{% if count <= 0 %}
+						<p class="my-3 mx-5">Aucun Commentaire laissé</p>
+					{% else %}
+						{% for comment in vehicle.comments|reverse %}
+							{% if comment.isActivated %}
+								<div class="my-3 p-2 mx-5 border shadow">
+									<p>
+										<strong>{{comment.user.firstName}}
+											{{comment.user.lastName}}</strong>
+										{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
+										<small>({{comment.createdAt|ago}})</small>
+									</p>
+									<p>{{comment.content|nl2br}}</p>
+								</div>
+							{% endif %}
+							<hr>
+						{% endfor %}
+					{% endif %}
+				{% endif %}
+
+			</div>
+		</div>
+	</main>
+
+{% endblock %}
