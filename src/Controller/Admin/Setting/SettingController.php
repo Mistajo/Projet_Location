@@ -8,11 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SettingController extends AbstractController
 {
-    #[Route('/setting', name: 'app_setting')]
+    #[Route('/admin/setting', name: 'admin.setting.index')]
     public function index(): Response
     {
-        return $this->render('setting/index.html.twig', [
-            'controller_name' => 'SettingController',
-        ]);
+        return $this->render('pages/admin/setting/index.html.twig');
     }
 }

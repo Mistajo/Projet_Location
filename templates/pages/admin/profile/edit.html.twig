@@ -18,12 +18,14 @@
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Prénom</label>
+						<div class="text-danger">{{ form_errors(form.firstName) }}</div>
 						{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Nom</label>
+						<div class="text-danger">{{ form_errors(form.lastName) }}</div>
 						{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
@@ -32,12 +34,14 @@
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Adresse</label>
+						<div class="text-danger">{{ form_errors(form.address) }}</div>
 						{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Ville</label>
+						<div class="text-danger">{{ form_errors(form.town) }}</div>
 						{{ form_widget(form.town, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
@@ -46,15 +50,20 @@
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Code Postal</label>
+						<div class="text-danger">{{ form_errors(form.zipCode) }}</div>
 						{{ form_widget(form.zipCode, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
 						<label for="">Email</label>
+						<div class="text-danger">{{ form_errors(form.email) }}</div>
 						{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
+			</div>
+			<div>
+				<input formnovalidate type="submit" class="btn btn-primary" value="Modifier">
 			</div>
 			{{ form_end(form) }}
 		</div>
