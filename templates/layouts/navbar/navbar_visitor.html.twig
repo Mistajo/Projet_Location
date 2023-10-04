@@ -39,7 +39,7 @@
 					{% endif %}
 					{% if "ROLE_USER" in app.user.roles %}
 						<li class="nav-item">
-							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-secondary shadow" href="#">Mon Espace</a>
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-secondary shadow" href="{{path('user.home.index')}}">Mon Espace</a>
 						</li>
 					{% endif %}
 					<li class="nav-item">

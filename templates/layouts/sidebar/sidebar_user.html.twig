@@ -51,6 +51,13 @@
 						Mon profil
 					</a>
 				</li>
+				{% if "ROLE_ADMIN" in app.user.roles %}
+					<li class="nav-item">
+						<a class="nav-link d-flex align-items-center gap-2" href="{{path('admin.home.dashboard')}}">
+							<i class="fa-solid fa-lock"></i>
+							Espace Admin</a>
+					</li>
+				{% endif %}
 				<li class="nav-item">
 					<a class="nav-link d-flex align-items-center gap-2" href="{{path('visitor.welcome.index')}}">
 						<i class="fa-solid fa-rotate-left"></i>

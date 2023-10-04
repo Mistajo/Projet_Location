@@ -58,7 +58,7 @@
 
 			<div class="my-3 mx-5">
 				{% set count = 0 %}
-				{% if vehicle.comments is empty %}
+				{% if vehicle.comments is not empty %}
 					{% for comment in vehicle.comments %}
 						{% if comment.isActivated %}
 							{% set count = count + 1 %}
