@@ -230,6 +230,23 @@ class Agency
         return $this->vehicles;
     }
 
+    /**
+     * @return array
+     */
+    public function getAvailableVehicles(): array
+    {
+        $allVehicles = $this->getVehicles()->toArray();
+
+        $availableVehicles = [];
+
+        foreach ($allVehicles as $vehicle) {
+            if ($vehicle->isAvailable() === true) {
+                $availableVehicles[] = $vehicle;
+            }
+        }
+        return $availableVehicles;
+    }
+
     public function addVehicle(Vehicle $vehicle): static
     {
         if (!$this->vehicles->contains($vehicle)) {

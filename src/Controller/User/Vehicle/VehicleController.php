@@ -51,4 +51,10 @@ class VehicleController extends AbstractController
             "form" => $form->createView(),
         ]);
     }
+
+    #[Route('/user/vehicles/filter-by-category/{id}', name: 'user.vehicles.filter_by_agency', methods: ['GET'])]
+    public function filterByAgency(Agency $agency): Response
+    {
+        dd($agency);
+    }
 }

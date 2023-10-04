@@ -22,7 +22,8 @@
 							{% for agency in agencies %}
 								{% if agency is not empty %}
 									<li>
-										<a class="dropdown-item" href="#">{{agency.name}}</a>
+										<a class="dropdown-item" href="{{path('user.vehicles.filter_by_agency',{'id': agency.id})}}">{{agency.name}}
+											({{agency.getAvailableVehicles|length}})</a>
 									</li>
 								{% endif %}
 							{% endfor %}
@@ -59,8 +60,8 @@
 						{% endfor %}
 						{# display navigation #}
 						{# <div class="mt-2">
-																																											{{ knp_pagination_render(posts) }}
-																																										</div> #}
+																																																																																																																																																																																											{{ knp_pagination_render(posts) }}
+																																																																																																																																																																																										</div> #}
 					</div>
 
 				{% endif %}
