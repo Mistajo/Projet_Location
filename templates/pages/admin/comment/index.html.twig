@@ -46,8 +46,15 @@
 							<td>{{comment.id}}</td>
 							<td>{{comment.user.firstName}}
 								{{comment.user.lastName}}</td>
-							<td>{{comment.agency.name}}</td>
 							<td>
+								{% if comment.agency is not empty %}
+									{{comment.agency.name}}
+								{% else %}
+									<p>pas d'agence</p>
+								{% endif %}
+							</td>
+
+							<td class="text-center">
 								{% if comment.isActivated %}
 									<span>Activé</span>
 								{% else %}
@@ -78,10 +85,14 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
 											<div class="modal-body">
-												<p>
-													<strong>Agence</strong>
-													:
-													{{comment.agency.name}}</p>
+												{% if comment.agency is not empty %}
+													<p>
+														<strong>Agence</strong>
+														:
+														{{comment.agency.name}}</p>
+												{% else %}
+													<p>Pas d'agence</p>
+												{% endif %}
 												<p class="my-2">
 													<strong>Commentaire</strong>
 													:{{comment.content|nl2br}}
@@ -127,7 +138,8 @@
 						</td>
 						<td>Options</td>
 					</tr>
-				</thead>
+				</thead>class="text-center"
+
 				<tbody>
 					{% for comment in comments %}
 						<tr>
@@ -135,7 +147,7 @@
 							<td>{{comment.user.firstName}}
 								{{comment.user.lastName}}</td>
 							<td>{{comment.vehicle.name}}</td>
-							<td>
+							<td class="text-center">
 								{% if comment.isActivated %}
 									<span>Activé</span>
 								{% else %}

@@ -20,7 +20,7 @@
 							</li>
 						{% else %}
 							{% for agency in agencies %}
-								{% if agency is not empty %}
+								{% if agency.getAvailableVehicles is not empty %}
 									<li>
 										<a class="dropdown-item" href="{{path('user.vehicles.filter_by_agency',{'id': agency.id})}}">{{agency.name}}
 											({{agency.getAvailableVehicles|length}})</a>
@@ -35,39 +35,36 @@
 					<p class="text-center mt-5">Aucun vehicule pour l'instant</p>
 				{% else %}
 					<div class="my-5 d-flex flex-column justify-content-center align-items-center">
-						{% for vehicle in vehicles %}
-							<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 card mb-3" style="max-width: 740px;">
-								<div class="row g-0">
-									<div class="col-md-4">
-										{% if vehicle.image %}
-											<img src="{{ vich_uploader_asset(vehicle, 'imageFile') | imagine_filter('admin_vehicle_thumbnail') }}" class="w-100 h-100 rounded" alt="{{ vehicle.name }}">
-										{% else %}
-											<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-100 h-100 rounded" alt="{{vehicle.name}}">
-										{% endif %}
-									</div>
-									<div class="col-md-8">
-										<div class="card-body">
-											<h5 class="card-title">{{vehicle.name}}</h5>
-											<p class="card-text">{{vehicle.description|striptags|u.truncate(70, '...')|raw}}</p>
-											<p>
-												<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}" class="btn btn-primary">Details</a>
-											</p>
+						<div class="container mt-5">
+							<div class="row">
+								{% for vehicle in vehicles %}
+									<div class="col-md-4 mb-4">
+										<div class="card mx-3 border shadow h-100">
+											<img src="{{ vich_uploader_asset(vehicle, 'imageFile') }}" class="card-img-top img-fluide" alt="Image du vehicule">
+											<div class="card-body">
+												<h5 class="card-title">{{ vehicle.name }}</h5>
+												<p class="card-text">Prix Journalier :
+													{{ vehicle.dailyPrice }}
+													€</p>
+												<p class="card-text">{{ vehicle.description|striptags|u.truncate(70, '...')|raw }}</p>
+												<p>
+													<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}" class="btn btn-primary">Details</a>
+												</p>
+											</div>
 										</div>
 									</div>
-								</div>
+								{% endfor %}
 							</div>
-							<hr>
-						{% endfor %}
-						{# display navigation #}
-						{# <div class="mt-2">
-																																																																																																																																																																																											{{ knp_pagination_render(posts) }}
-																																																																																																																																																																																										</div> #}
-					</div>
+						</div>
 
+						{# display navigation #}
+						<div class="mt-2">
+							{{ knp_pagination_render(vehicles) }}
+						</div>
+					</div>
 				{% endif %}
 
 			</div>
 		</div>
 	</main>
-
 {% endblock %}

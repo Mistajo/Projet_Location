@@ -130,10 +130,18 @@ class Vehicle
     #[ORM\OneToMany(mappedBy: 'vehicle', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'vehicle', targetEntity: Like::class)]
+    private Collection $likes;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'vehicles')]
+    private Collection $user;
+
     public function __construct()
     {
         $this->isAvailable = false;
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -338,5 +346,75 @@ class Vehicle
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getVehicle() === $this) {
+                $like->setVehicle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->user->removeElement($user);
+
+        return $this;
+    }
+
+    public function isLikedBy(User $user): bool
+    {
+        // Récupérons tous les likes associés à cet article
+        $likes = $this->getLikes()->toArray();
+        // Parcourons le tableau des likes,
+        foreach ($likes as $like) {
+            // Si l'utilisateur associé à l'un des likes est le même que l'utilisateur connecté
+            if ($like->getUser() == $user) {
+                // c'est qu'il a déjà aimé cet article
+                return true;
+            }
+        }
+        // Dans le cas contraire, c'est qu'il n'a pas encore aimé cet article
+        return false;
     }
 }
