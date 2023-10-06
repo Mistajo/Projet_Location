@@ -9,18 +9,36 @@
 	<div class="container mt-5">
 		<div class="row">
 			{% for agency in agencies %}
-				<div class="col-md-4 mb-3">
-					<div class="card mx-3 border shadow h-100">
-						<img src="{{ vich_uploader_asset(agency, 'imageFile') }}" class="card-img-top" alt="{{ agency.name }}">
+				<div class="col-md-6 mb-4">
+
+					<div class="card mb-3 border shadow w-75 h-100 mx-5 my-2">
+						<img src="{{ vich_uploader_asset(agency, 'imageFile') }}" class="card-img-top img-fluid" alt="{{ agency.name }}">
 						<div class="card-body">
-							<h5 class="card-title">{{ agency.name }}</h5>
-							<p class="card-text">{{ agency.description|striptags|u.truncate(70, '...')|raw }}</p>
-							<a href="#" class="btn btn-primary">Voir</a>
+							<h5 class="card-title">Nom de l'agence :
+								{{ agency.name }}</h5>
+							<p class="card-text">Description :
+								{{ agency.description|striptags|u.truncate(70, '...')|raw }}</p>
+							<p class="card-text">Adresse :
+								{{ agency.address|striptags|u.truncate(70, '...')|raw }}
+							</p>
+							<p class="card-text">Ville :
+								{{ agency.town|striptags|u.truncate(70, '...')|raw }}
+							</p>
+							<p class="card-text">CP :
+								{{ agency.zipCode|striptags|u.truncate(70, '...')|raw }}
+							</p>
+							<p>
+								<a href="{{path('user.agency.show', {'id' : agency.id})}}" class="btn btn-primary">Details</a>
+							</p>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
+			{# display navigation #}
+			<div class="mt-2 d-flex justify-content-center">
+				{{ knp_pagination_render(agencies) }}
+			</div>
 		</div>
 	</div>
 
-{% endblock %}
+</div>{% endblock %}

@@ -107,11 +107,15 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Like::class)]
     private Collection $likes;
 
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Reservation::class)]
+    private Collection $reservations;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +230,23 @@ class Agency
         return $this->updatedAt;
     }
 
+    public function isLikedBy(User $user): bool
+    {
+        // Récupérons tous les likes associés à cet article
+        $likes = $this->getLikes()->toArray();
+        // Parcourons le tableau des likes,
+        foreach ($likes as $like) {
+            // Si l'utilisateur associé à l'un des likes est le même que l'utilisateur connecté
+            if ($like->getUser() == $user) {
+                // c'est qu'il a déjà aimé cet article
+                return true;
+            }
+        }
+        // Dans le cas contraire, c'est qu'il n'a pas encore aimé cet article
+        return false;
+    }
+
+
     /**
      * @return Collection<int, Vehicle>
      */
@@ -327,6 +348,36 @@ class Agency
             // set the owning side to null (unless already changed)
             if ($like->getAgency() === $this) {
                 $like->setAgency(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setAgency($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getAgency() === $this) {
+                $reservation->setAgency(null);
             }
         }
 

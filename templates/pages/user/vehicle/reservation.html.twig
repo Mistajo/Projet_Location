@@ -1,0 +1,109 @@
+{% extends 'themes/base_user.html.twig' %}
+
+{% block title %}
+	- User - Reservation
+	{{vehicle.name}}
+{% endblock %}
+
+{% block main %}
+
+	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{path('user.vehicle.index')}}">Vehicules</a>
+			</li>
+			<li class="breadcrumb-item">{{vehicle.name|u.truncate('50','...')}}</li>
+			<li class="breadcrumb-item active" aria-current="page">Réservation
+				{{vehicle.name|u.truncate('50','...')}}</li>
+
+		</ol>
+	</nav>
+
+	<h1 class="text-center my-3 display-5">Réservation :
+		{{vehicle.name}}
+	</h1>
+	<div class="container mt-5">
+		<div class="text-center">
+			{% if vehicle.image %}
+				<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
+			{% else %}
+				<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
+			{% endif %}
+		</div>
+		<div class="text-center">
+			<strong>Prix Journalier :
+				<span id="prix">
+					{{vehicle.dailyPrice}}
+				</span>
+			</strong>
+			€
+		</div>
+		<form action="{{path('user.vehicle.reservation.confirmation', {'id' : vehicle.id})}}" method="POST">
+			<div class="row">
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="prix_total" value="" id="ttc">
+				<div class="col-6 mt-4">
+					<label for="pseudo">Date début</label>
+					<input type="date" name="date_de_depart" class="form-control" id="begin" min="<?= date('Y-m-d') ?>">
+				</div>
+				<div class="col-6 mt-4">
+					<label for="email">Date fin</label>
+					<input type="date" name="date_de_fin" class="form-control" id="end" disabled>
+				</div>
+
+				<div class="col-6 mt-4">
+					<p>Prix Total :</p>
+					<div id="prix_ttc"></div>
+				</div>
+			</div>
+			<input type="hidden" name="csrf_token" value="{{csrf_token('vehicle_reservation_'~vehicle.id)}}">
+			<input onclick=" return confirm('Confirmer cette réservation ?');" onchange="this.form.submit();" type="submit" class="btn btn-success my-2" value="Valider">
+
+		</form>
+	</div>
+{% endblock %}
+
+{% block javascript %}
+
+	<script>
+		// récuperation des éléments du DOM
+let dateDebut = document.getElementById('begin');
+let dateFin = document.getElementById('end');
+let prix = document.getElementById('prix').innerHTML;
+let prix_ttc = document.getElementById('prix_ttc');
+
+// evenement quand l'input perd le focus
+dateDebut.addEventListener('blur', function () {
+var debut = dateDebut.value;
+
+// on active la saiise sudate fin
+dateFin.disabled = false;
+// on fixe le min par apport à date debut
+let dateFinMin = new Date(dateDebut.value);
+dateFinMin.setDate(dateFinMin.getDate() + 1)
+dateMin = dateFinMin.toJSON();
+
+dateFin.min = dateMin.substring(0, 10);
+
+dateFin.addEventListener('blur', function () {
+var fin = dateFin.value;
+let jours = nbJour(debut, fin);
+
+prix_ttc.innerHTML = jours + " jours pour " + (
+jours * prix
+) + "€";
+
+document.getElementById("ttc").value = (jours * prix);
+});
+
+});
+
+function nbJour(date1, date2) {
+let d1 = new Date(date1);
+let d2 = new Date(date2);
+
+return parseInt((d2 - d1) / 86400000);
+}
+	</script>
+
+{% endblock %}

@@ -7,6 +7,14 @@
 {% block main %}
 	<main>
 		<h1 class="text-center my-3 display-5">Nos Vehicules</h1>
+
+		{% for message in app.flashes('success') %}
+			<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
+				{{message}}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+
 		<div class="container mt-3">
 			<div class="row text-center">
 				<div class="dropdown-center text-center my-5">
@@ -34,10 +42,11 @@
 				{% if vehicles is empty %}
 					<p class="text-center mt-5">Aucun vehicule pour l'instant</p>
 				{% else %}
-					<div class="my-5 d-flex flex-column justify-content-center align-items-center">
+					<div class="my-2 d-flex flex-column justify-content-center align-items-center">
 						<div class="container mt-5">
 							<div class="row">
 								{% for vehicle in vehicles %}
+
 									<div class="col-md-4 mb-4">
 										<div class="card mx-3 border shadow h-100">
 											<img src="{{ vich_uploader_asset(vehicle, 'imageFile') }}" class="card-img-top img-fluide" alt="Image du vehicule">

@@ -40,6 +40,14 @@ class AgencyController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/agency/{id}/show', name: 'admin.agency.show', methods: ['GET'])]
+    public function show(Agency $agency): Response
+    {
+        return $this->render('pages/admin/agency/show.html.twig', [
+            'agency' => $agency,
+        ]);
+    }
+
     #[Route('/admin/agency/{id}/edit', name: 'admin.agency.edit', methods: ['GET', 'PUT'])]
     public function edit(Agency $agency, Request $request, EntityManagerInterface $em): Response
     {
