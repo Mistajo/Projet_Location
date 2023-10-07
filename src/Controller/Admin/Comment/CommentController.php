@@ -3,7 +3,10 @@
 namespace App\Controller\Admin\Comment;
 
 use App\Entity\Comment;
+use App\Entity\Vehicle;
+use App\Repository\AgencyRepository;
 use App\Repository\CommentRepository;
+use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +16,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CommentController extends AbstractController
 {
     #[Route('/admin/comment/list', name: 'admin.comment.index')]
-    public function index(CommentRepository $commentRepository): Response
+    public function index(CommentRepository $commentRepository, VehicleRepository $vehicleRepository): Response
     {
 
         return $this->render('pages/admin/comment/index.html.twig', [
             "comments" => $commentRepository->findAll(),
+            "vehicles" => $vehicleRepository->findAll()
+
 
         ]);
     }

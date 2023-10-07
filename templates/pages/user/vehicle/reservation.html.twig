@@ -22,49 +22,56 @@
 	<h1 class="text-center my-3 display-5">Réservation :
 		{{vehicle.name}}
 	</h1>
-	<div class="container mt-5">
-		<div class="text-center">
-			{% if vehicle.image %}
-				<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
-			{% else %}
-				<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
-			{% endif %}
-		</div>
-		<div class="text-center">
-			<strong>Prix Journalier :
-				<span id="prix">
+
+	<div class="text-center">
+		{% if vehicle.image %}
+			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
+		{% else %}
+			<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
+		{% endif %}
+	</div>
+
+	<div class="my-3 text-center">
+		<p>
+			<strong>
+				Prix Journalier :
+				<span id='prix'>
 					{{vehicle.dailyPrice}}
 				</span>
+				€
 			</strong>
-			€
-		</div>
-		<form action="{{path('user.vehicle.reservation.confirmation', {'id' : vehicle.id})}}" method="POST">
+		</p>
+	</div>
+
+	<div class="container mt-3 d-flex justify-content-center">
+
+
+		<form action="" method="post">
+			<input type="hidden" name="prix_total" value="" id="ttc">
+			<input type="hidden" name=>
+
 			<div class="row">
-				<input type="hidden" name="_method" value="PUT">
-				<input type="hidden" name="prix_total" value="" id="ttc">
+
 				<div class="col-6 mt-4">
 					<label for="pseudo">Date début</label>
-					<input type="date" name="date_de_depart" class="form-control" id="begin" min="<?= date('Y-m-d') ?>">
+					<input type="date" name="date_heure_depart" class="form-control" id="begin" min="date('Y-m-d')">
+
 				</div>
 				<div class="col-6 mt-4">
 					<label for="email">Date fin</label>
-					<input type="date" name="date_de_fin" class="form-control" id="end" disabled>
+					<input type="date" name="date_heure_fin" class="form-control" id="end" disabled>
 				</div>
 
 				<div class="col-6 mt-4">
-					<p>Prix Total :</p>
+					<label for="">Prix TTC :</label>
 					<div id="prix_ttc"></div>
 				</div>
 			</div>
-			<input type="hidden" name="csrf_token" value="{{csrf_token('vehicle_reservation_'~vehicle.id)}}">
-			<input onclick=" return confirm('Confirmer cette réservation ?');" onchange="this.form.submit();" type="submit" class="btn btn-success my-2" value="Valider">
-
+			<input type="submit" class="btn btn-success my-2" value="Valider">
 		</form>
 	</div>
 {% endblock %}
-
 {% block javascript %}
-
 	<script>
 		// récuperation des éléments du DOM
 let dateDebut = document.getElementById('begin');
@@ -72,7 +79,7 @@ let dateFin = document.getElementById('end');
 let prix = document.getElementById('prix').innerHTML;
 let prix_ttc = document.getElementById('prix_ttc');
 
-// evenement quand l'input perd le focus
+// evenement quand l'input pert le focus
 dateDebut.addEventListener('blur', function () {
 var debut = dateDebut.value;
 
@@ -93,7 +100,7 @@ prix_ttc.innerHTML = jours + " jours pour " + (
 jours * prix
 ) + "€";
 
-document.getElementById("ttc").value = (jours * prix);
+document.getElementById("ttc").value = (jours * prix) * 1.20;
 });
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Controller\User\Vehicle;
 
+use DateTime;
 use App\Entity\Like;
 use App\Entity\Agency;
 use DateTimeImmutable;
@@ -16,9 +17,9 @@ use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\IsVehiculeDisponibleValidator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VehicleController extends AbstractController
@@ -139,13 +140,17 @@ class VehicleController extends AbstractController
     #[Route('/user/vehicle/{id}/reservation/index', name: 'user.vehicle.reservation.index')]
     public function Reservation(Vehicle $vehicle): Response
     {
+
+        $form = $this->createForm(ReservationFormType::class, new Reservation());
+
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
+            'form' => $form->createView()
         ]);
     }
 
     #[Route('/user/vehicle/{id}/reservation/confirmation', name: 'user.vehicle.reservation.confirmation', methods: ['GET', 'PUT'])]
-    public function Confirmation(Vehicle $vehicle, Request $request, EntityManagerInterface $em): Response
+    public function Confirmation(Vehicle $vehicle, Request $request, EntityManagerInterface $em,): Response
     {
         $agency = $vehicle->getAgency();
 
@@ -154,8 +159,10 @@ class VehicleController extends AbstractController
             $reservation->setVehicle($vehicle);
             $reservation->setUser($this->getUser());
             $reservation->setAgency($agency);
-            $reservation->setStartDate(new DateTimeImmutable('now'));
-            $reservation->setEndDate(new DateTimeImmutable('now'));
+            // on recupere la date de debut et de fin de la reservation
+            $reservation->setStartDate(new \DateTimeImmutable($request->request->get('startDate')));
+            $reservation->setEndDate(new \DateTimeImmutable($request->request->get('endDate')));
+            // on recupere le prix de la location
             $prix = $vehicle->getDailyPrice() * ($reservation->getEndDate()->diff($reservation->getStartDate())->days + 1);
             $reservation->setTotalPrice($prix);
 

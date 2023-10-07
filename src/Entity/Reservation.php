@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
+
+
+use DateTime;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use App\Repository\ReservationRepository;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -24,10 +28,10 @@ class Reservation
     private ?Vehicle $vehicle = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $startDate = null;
+    private ?\DateTime $startDate = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $endDate = null;
+    private ?\DateTime $endDate = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $totalPrice = null;
@@ -77,24 +81,24 @@ class Reservation
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeImmutable
+    public function getStartDate(): ?\DateTime
     {
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeImmutable $startDate): static
+    public function setStartDate(?\DateTime $startDate): static
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeImmutable
+    public function getEndDate(): ?\DateTime
     {
         return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeImmutable $endDate): static
+    public function setEndDate(?DateTime $endDate): static
     {
         $this->endDate = $endDate;
 
@@ -103,6 +107,9 @@ class Reservation
 
     public function getTotalPrice(): ?float
     {
+        // $diff = $this->endDate->diff($this->startDate);
+        // $nbJours = $diff->days;
+        // return $this->vehicle->getdailyPrice() * $nbJours;
         return $this->totalPrice;
     }
 
