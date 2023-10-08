@@ -43,41 +43,70 @@
 		</p>
 	</div>
 
-	<div class="container mt-3 d-flex justify-content-center">
+	<divclass="containermt-3d-flexjustify-content-center">
+		{{form_start(form)}}
+		<div class="row">
+			<div class="col-6">
+				<div class="mb-3">
+					<label for="form_startDate">Date de Debut</label>
+					<div class="text-danger">{{ form_errors(form.startDate) }}</div>
+					{{ form_widget(form.startDate, {'attr' : {'class': 'form-control', 'id': 'startDate'}}) }}
 
-
-		<form action="" method="post">
-			<input type="hidden" name="prix_total" value="" id="ttc">
-			<input type="hidden" name=>
-
-			<div class="row">
-
-				<div class="col-6 mt-4">
-					<label for="pseudo">Date début</label>
-					<input type="date" name="date_heure_depart" class="form-control" id="begin" min="date('Y-m-d')">
-
-				</div>
-				<div class="col-6 mt-4">
-					<label for="email">Date fin</label>
-					<input type="date" name="date_heure_fin" class="form-control" id="end" disabled>
-				</div>
-
-				<div class="col-6 mt-4">
-					<label for="">Prix TTC :</label>
-					<div id="prix_ttc"></div>
 				</div>
 			</div>
-			<input type="submit" class="btn btn-success my-2" value="Valider">
-		</form>
-	</div>
-{% endblock %}
-{% block javascript %}
-	<script>
-		// récuperation des éléments du DOM
-let dateDebut = document.getElementById('begin');
-let dateFin = document.getElementById('end');
+			<div class="col-6">
+				<div class="mb-3">
+					<label for="form_endDate">Date de Fin</label>
+					<div class="text-danger">{{ form_errors(form.endDate) }}</div>
+					{{ form_widget(form.endDate, {'attr' : {'class': 'form-control', 'id': 'endDate',}}) }}
+				</div>
+			</div>
+		</div>
+		<div class="mb-3 w-50">
+			<label for="form_endDate">Prix Total</label>
+			<div class="text-danger">{{ form_errors(form.totalPrice) }}</div>
+			{{ form_widget(form.totalPrice, {'attr' : {'class': 'form-control', 'id': 'totalPrice', 'readonly': 'readonly','value':vehicle.dailyprice }}) }}
+			{{vehicle.dailyPrice}}
+
+		</div>
+
+
+		<div class="mb-3 d-flex justify-content-center">
+			<input value="Valider" formnovalidate type="submit" class="btn btn-primary w-50 shadow">
+		</div>
+		{{ form_end(form) }}
+
+		{# 
+																																																																																																									<form action="{{path('user.vehicle.reservation.confirmation', {'id': vehicle.id})}}" method="POST">
+																																																																																																										<input type="hidden" name="prix_total" value="" id="ttc">
+																																																																																																										<div class="row">
+																																																																																																											<div class="col-6 mt-4">
+																																																																																																												<label for="pseudo">Date début</label>
+																																																																																																												<input type="date" name="date_heure_depart" class="form-control" id="begin" min="date('Y-m-d')">
+																																																																																																											</div>
+																																																																																																											<div class="col-6 mt-4">
+																																																																																																												<label for="email">Date fin</label>
+																																																																																																												<input type="date" name="date_heure_fin" class="form-control" id="end" disabled>
+																																																																																																											</div>
+																																																																																																											<div class="col-6 mt-4">
+																																																																																																												<label for="">Prix TTC :</label>
+																																																																																																												<div id="prix_ttc"></div>
+																																																																																																											</div>
+																																																																																																										</div>
+																																																																																																										<input onclick="return confirm('Confirmer cette reservation?')" onchange="this.form.submit()" type="submit" class="btn btn-success my-2" value="Valider">
+																																																																																																										<input type="hidden" name="csrf_token" value="{{csrf_token('vehicle_reservation_'~vehicle.id)}}">
+																																																																																																									</form> #}
+
+	{% endblock %}
+	{% block javascript %}
+		<script>
+			// récuperation des éléments du DOM
+let dateDebut = document.getElementById('startDate');
+
+let dateFin = document.getElementById('endDate');
 let prix = document.getElementById('prix').innerHTML;
-let prix_ttc = document.getElementById('prix_ttc');
+let prix_ttc = document.getElementById('totalPrice');
+
 
 // evenement quand l'input pert le focus
 dateDebut.addEventListener('blur', function () {
@@ -96,11 +125,13 @@ dateFin.addEventListener('blur', function () {
 var fin = dateFin.value;
 let jours = nbJour(debut, fin);
 
-prix_ttc.innerHTML = jours + " jours pour " + (
+totalPrice.innerHTML = jours + " jours pour " + (
+
 jours * prix
 ) + "€";
 
-document.getElementById("ttc").value = (jours * prix) * 1.20;
+document.getElementById("totalPrice").value = (jours * prix);
+
 });
 
 });
@@ -111,6 +142,6 @@ let d2 = new Date(date2);
 
 return parseInt((d2 - d1) / 86400000);
 }
-	</script>
+		</script>
 
-{% endblock %}
+	{% endblock %}

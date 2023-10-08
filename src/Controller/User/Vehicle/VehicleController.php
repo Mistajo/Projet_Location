@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Like;
 use App\Entity\Agency;
 use DateTimeImmutable;
+use DateTimeInterface;
 use App\Entity\Comment;
 use App\Entity\Vehicle;
 use App\Entity\Reservation;
@@ -138,43 +139,31 @@ class VehicleController extends AbstractController
     }
 
     #[Route('/user/vehicle/{id}/reservation/index', name: 'user.vehicle.reservation.index')]
-    public function Reservation(Vehicle $vehicle): Response
+    public function Reservation(Vehicle $vehicle, Request $request): Response
     {
+        $agency = $vehicle->getAgency();
+        $reservation = new Reservation();
 
-        $form = $this->createForm(ReservationFormType::class, new Reservation());
+        $form = $this->createForm(ReservationFormType::class, $reservation);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $reservation->setUser($this->getUser());
+            $reservation->setVehicle($vehicle);
+            $reservation->setAgency($agency);
+
+            dd($reservation);
+
+            return $this->redirectToRoute('user.vehicle.reservation.index', ['id' => $vehicle->getId()]);
+        }
+
 
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
-            'form' => $form->createView()
-        ]);
-    }
+            'form' => $form->createView(),
 
-    #[Route('/user/vehicle/{id}/reservation/confirmation', name: 'user.vehicle.reservation.confirmation', methods: ['GET', 'PUT'])]
-    public function Confirmation(Vehicle $vehicle, Request $request, EntityManagerInterface $em,): Response
-    {
-        $agency = $vehicle->getAgency();
-
-        if ($this->isCsrfTokenValid("vehicle_reservation_" . $vehicle->getId(), $request->request->get('csrf_token'))) {
-            $reservation = new Reservation();
-            $reservation->setVehicle($vehicle);
-            $reservation->setUser($this->getUser());
-            $reservation->setAgency($agency);
-            // on recupere la date de debut et de fin de la reservation
-            $reservation->setStartDate(new \DateTimeImmutable($request->request->get('startDate')));
-            $reservation->setEndDate(new \DateTimeImmutable($request->request->get('endDate')));
-            // on recupere le prix de la location
-            $prix = $vehicle->getDailyPrice() * ($reservation->getEndDate()->diff($reservation->getStartDate())->days + 1);
-            $reservation->setTotalPrice($prix);
-
-            $em->persist($reservation);
-            $em->flush();
-            $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
-        }
-        return $this->redirectToRoute("user.vehicle.index");
-
-        return $this->render('pages/user/home.index.html.twig', [
-            'vehicle' => $vehicle,
-            'reservation' => $reservation,
 
         ]);
     }

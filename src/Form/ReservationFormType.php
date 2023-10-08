@@ -9,12 +9,14 @@ use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 class ReservationFormType extends AbstractType
 {
@@ -23,30 +25,43 @@ class ReservationFormType extends AbstractType
         $builder
             ->add('startDate', DateTimeType::class, [
                 'label' => 'Date de début',
-                'widget' => 'single_text',
+                'input' => 'datetime',
+                'widget' => 'choice',
+                'attr' => [
+                    'id' => 'startDate'
+                ],
                 'constraints' => [
-                    new GreaterThan('today UTC'),
+                    new GreaterThan('now'),
                     new NotBlank(),
-                    new Date(),
-                    new DateTime()
+
                 ],
             ])
             ->add('endDate', DateTimeType::class, [
                 'label' => 'Date de fin',
-                'widget' => 'single_text',
+                'input' => 'datetime',
+                'widget' => 'choice',
+                'attr' => [
+                    'id' => 'endDate'
+                ],
                 'constraints' => [
                     new NotBlank(),
-                    new Date(),
-                    new GreaterThan('startDate'),
-                    new DateTime(),
+
                 ],
             ])
             ->add('totalPrice', MoneyType::class, [
                 'label' => 'Total',
                 'currency' => 'EUR',
-                'divisor' => 100,
-                'grouping' => true,
-                'attr' => ['class' => 'money'],
+                'attr' => [
+                    'class' => 'money',
+                    'data-mask' => '000.000.000.000,00',
+                    'data-mask-reverse' => 'false',
+                    'data-thousands' => ',',
+                    'data-decimal' => '.',
+                    'data-prefix' => '€ ',
+                    'readonly' => true,
+                    'id' => 'totalPrice',
+
+                ],
                 'constraints' => [
                     new NotBlank(),
                     new Type('numeric'),

@@ -9,6 +9,8 @@ use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\ReservationRepository;
+use DateTimeInterface;
+use phpDocumentor\Reflection\Types\Static_;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -83,10 +85,11 @@ class Reservation
 
     public function getStartDate(): ?\DateTime
     {
+
         return $this->startDate;
     }
 
-    public function setStartDate(?\DateTime $startDate): static
+    public function setStartDate(?\DateTime $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -98,7 +101,7 @@ class Reservation
         return $this->endDate;
     }
 
-    public function setEndDate(?DateTime $endDate): static
+    public function setEndDate(?DateTime $endDate): self
     {
         $this->endDate = $endDate;
 
