@@ -9,6 +9,7 @@ use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\ReservationRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeInterface;
 use phpDocumentor\Reflection\Types\Static_;
 
@@ -29,9 +30,17 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Vehicle $vehicle = null;
 
+    #[Assert\NotBlank(message: "La date de début est obligatoire.")]
+    #[Assert\GreaterThan('today UTC')]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $startDate = null;
 
+    #[Assert\NotBlank(message: "La date de fin est obligatoire.")]
+    #[Assert\GreaterThan('today UTC')]
+    #[Assert\GreaterThan(
+        propertyPath: "startDate",
+        message: "La date de fin doit etre supperieur à la date de début"
+    )]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $endDate = null;
 
@@ -41,6 +50,10 @@ class Reservation
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[Assert\GreaterThan(0)]
+    #[ORM\Column(nullable: true)]
+    private ?float $dailyPrice = null;
 
     public function getId(): ?int
     {
@@ -110,9 +123,7 @@ class Reservation
 
     public function getTotalPrice(): ?float
     {
-        // $diff = $this->endDate->diff($this->startDate);
-        // $nbJours = $diff->days;
-        // return $this->vehicle->getdailyPrice() * $nbJours;
+
         return $this->totalPrice;
     }
 
@@ -131,6 +142,27 @@ class Reservation
     public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function calculerPrixTotal()
+    {
+        $diff = $this->endDate->diff($this->startDate);
+        $nbJours = $diff->days;
+
+        return $this->dailyPrice * $nbJours;
+    }
+
+
+    public function getDailyPrice(): ?float
+    {
+        return $this->dailyPrice;
+    }
+
+    public function setDailyPrice(?float $dailyPrice): static
+    {
+        $this->dailyPrice = $dailyPrice;
 
         return $this;
     }

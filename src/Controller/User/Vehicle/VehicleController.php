@@ -14,6 +14,7 @@ use App\Form\CommentFormType;
 use App\Form\ReservationFormType;
 use App\Repository\LikeRepository;
 use App\Repository\AgencyRepository;
+use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -139,8 +140,10 @@ class VehicleController extends AbstractController
     }
 
     #[Route('/user/vehicle/{id}/reservation/index', name: 'user.vehicle.reservation.index')]
-    public function Reservation(Vehicle $vehicle, Request $request): Response
+    public function Reservation(Vehicle $vehicle, Request $request, ReservationRepository $reservationRepository): Response
     {
+        $res =
+            $reservationRepository->findBy(['vehicle' => $vehicle]);
         $agency = $vehicle->getAgency();
         $reservation = new Reservation();
 
@@ -153,6 +156,9 @@ class VehicleController extends AbstractController
             $reservation->setUser($this->getUser());
             $reservation->setVehicle($vehicle);
             $reservation->setAgency($agency);
+            $prixTotal = $reservation->calculerPrixTotal();
+            $reservation->setTotalPrice($prixTotal);
+
 
             dd($reservation);
 
@@ -162,6 +168,7 @@ class VehicleController extends AbstractController
 
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
+            'reservation' => $res,
             'form' => $form->createView(),
 
 
