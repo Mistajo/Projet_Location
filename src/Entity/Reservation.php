@@ -30,6 +30,7 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Vehicle $vehicle = null;
 
+
     #[Assert\NotBlank(message: "La date de début est obligatoire.")]
     #[Assert\GreaterThan('today UTC')]
     #[ORM\Column(nullable: true)]
@@ -146,13 +147,35 @@ class Reservation
         return $this;
     }
 
-    public function calculerPrixTotal()
+    public function calculateTotalPrice()
     {
         $diff = $this->endDate->diff($this->startDate);
         $nbJours = $diff->days;
 
-        return $this->dailyPrice * $nbJours;
+        return $this->dailyPrice * $nbJours * 1.20;
     }
+
+    /**
+     * Vérifie si le véhicule est déjà loué pour la période donnée.
+     */
+    // public function vehicleAlreadyLeased()
+    // {
+    //     // Remplacez cette logique par l'interrogation de votre source de données, par exemple une requête en base de données
+    //     // Assurez-vous d'ajuster cette logique en fonction de votre structure de données réelle
+    //     $CurrentReservations = $this->$reservationRepository->findBy([
+    //         'vehicule' => $this->vehicle,
+    //         'dateDebut' => $this->startDate,
+    //         'dateFin' => $this->endDate,
+    //     ]);
+
+    //     // Si des réservations existent pour cette période, le véhicule est déjà loué
+    //     if (count($CurrentReservations) > 0) {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
+
 
 
     public function getDailyPrice(): ?float

@@ -140,10 +140,9 @@ class VehicleController extends AbstractController
     }
 
     #[Route('/user/vehicle/{id}/reservation/index', name: 'user.vehicle.reservation.index')]
-    public function Reservation(Vehicle $vehicle, Request $request, ReservationRepository $reservationRepository): Response
+    public function Reservation(Vehicle $vehicle, Request $request, EntityManagerInterface $em): Response
     {
-        $res =
-            $reservationRepository->findBy(['vehicle' => $vehicle]);
+
         $agency = $vehicle->getAgency();
         $reservation = new Reservation();
 
@@ -153,22 +152,27 @@ class VehicleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // if ($reservation->vehicleAlreadyLeased()) {
+            //     // Le véhicule est déjà loué pour la période donnée, afficher un message d'erreur ou rediriger vers une page appropriée
+            //     return new Response('Le véhicule est déjà loué pour cette période.');
+            // }
+
+
             $reservation->setUser($this->getUser());
             $reservation->setVehicle($vehicle);
             $reservation->setAgency($agency);
-            $prixTotal = $reservation->calculerPrixTotal();
-            $reservation->setTotalPrice($prixTotal);
+            $totalPrice = $reservation->calculateTotalPrice();
+            $reservation->setTotalPrice($totalPrice);
+            $em->persist($reservation);
+            $em->flush();
+            $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "pour un montant de " . " " . $reservation->getTotalPrice() . " " . "€" . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
 
-
-            dd($reservation);
-
-            return $this->redirectToRoute('user.vehicle.reservation.index', ['id' => $vehicle->getId()]);
+            return $this->redirectToRoute('user.vehicle.index');
         }
 
 
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
-            'reservation' => $res,
             'form' => $form->createView(),
 
 

@@ -59,82 +59,16 @@
 			<label for="form_endDate">Prix à la journée</label>
 			<div class="text-danger">{{ form_errors(form.dailyPrice) }}</div>
 			{{ form_widget(form.dailyPrice, {'attr' : {'class': 'form-control', 'id': 'totalPrice' ,'readonly': 'readonly', "value" : vehicle.dailyprice}}) }}
-
 		</div>
-
 
 		<div class="mb-3 d-flex justify-content-center">
 			<input value="Valider" formnovalidate type="submit" class="btn btn-primary w-50 shadow">
 		</div>
 		{{ form_end(form) }}
-
-		{# 
-																																																																																																																																																																									<form action="{{path('user.vehicle.reservation.confirmation', {'id': vehicle.id})}}" method="POST">
-																																																																																																																																																																										<input type="hidden" name="prix_total" value="" id="ttc">
-																																																																																																																																																																										<div class="row">
-																																																																																																																																																																											<div class="col-6 mt-4">
-																																																																																																																																																																												<label for="pseudo">Date début</label>
-																																																																																																																																																																												<input type="date" name="date_heure_depart" class="form-control" id="begin" min="date('Y-m-d')">
-																																																																																																																																																																											</div>
-																																																																																																																																																																											<div class="col-6 mt-4">
-																																																																																																																																																																												<label for="email">Date fin</label>
-																																																																																																																																																																												<input type="date" name="date_heure_fin" class="form-control" id="end" disabled>
-																																																																																																																																																																											</div>
-																																																																																																																																																																											<div class="col-6 mt-4">
-																																																																																																																																																																												<label for="">Prix TTC :</label>
-																																																																																																																																																																												<div id="prix_ttc"></div>
-																																																																																																																																																																											</div>
-																																																																																																																																																																										</div>
-																																																																																																																																																																										<input onclick="return confirm('Confirmer cette reservation?')" onchange="this.form.submit()" type="submit" class="btn btn-success my-2" value="Valider">
-																																																																																																																																																																										<input type="hidden" name="csrf_token" value="{{csrf_token('vehicle_reservation_'~vehicle.id)}}">
-																																																																																																																																																																									</form> #}
-
-	{% endblock %}
-	{% block javascript %}
-
-		<script>// // récuperation des éléments du DOM
-// let dateDebut = document.getElementById('startDate');
-
-// let dateFin = document.getElementById('endDate');
-// let prix = document.getElementById('prix').innerHTML;
-// let prix_ttc = document.getElementById('totalPrice');
-
-
-// // evenement quand l'input pert le focus
-// dateDebut.addEventListener('blur', function () {
-// var debut = dateDebut.value;
-
-// // on active la saiise sudate fin
-// dateFin.disabled = false;
-// // on fixe le min par apport à date debut
-// let dateFinMin = new Date(dateDebut.value);
-// dateFinMin.setDate(dateFinMin.getDate() + 1)
-// dateMin = dateFinMin.toJSON();
-
-// dateFin.min = dateMin.substring(0, 10);
-
-// dateFin.addEventListener('blur', function () {
-// var fin = dateFin.value;
-// let jours = nbJour(debut, fin);
-
-// totalPrice.innerHTML = jours + " jours pour " + (
-
-// jours * prix
-// ) + "€";
-
-// document.getElementById("totalPrice").value = (jours * prix);
-
-// });
-
-// });
-
-// function nbJour(date1, date2) {
-// let d1 = new Date(date1);
-// let d2 = new Date(date2);
-
-// return parseInt((d2 - d1) / 86400000);
-// }
-//
-	</script>
-
+	</div>
+	<p class="text-danger d-flex justify-content-center">info :
+																					Nous Appliquons un taux de tva de 20%
+	</p>
 {% endblock %}
+
+{% block javascript %}{% endblock %}
