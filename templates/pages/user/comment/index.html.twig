@@ -27,7 +27,7 @@
 	{% endfor %}
 
 
-	<section>
+	<section class="my-2">
 		<h1 class="text-center my-3 display-5">Liste de mes Commentaires Agences</h1>
 		<div class="table-responsive bg-secondary">
 			<table id="table" class="table table-striped table-hover table-bordered">
@@ -49,7 +49,7 @@
 								{% if comment.agency is not empty %}
 									{{comment.agency.name}}
 								{% else %}
-									<p>Ne Concerne pas une agence</p>
+									<p>N/A</p>
 								{% endif %}
 							</td>
 							<td class="text-center">
@@ -105,7 +105,7 @@
 		</div>
 	</section>
 
-	<section class="mt-5">
+	<section class="my-3">
 		<h1 class="text-center my-3 display-5">Liste des Commentaires Vehicules</h1>
 		<div class="table-responsive bg-secondary">
 			<table id="table1" class="table table-striped table-hover table-bordered">

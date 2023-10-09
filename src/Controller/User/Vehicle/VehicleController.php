@@ -146,16 +146,20 @@ class VehicleController extends AbstractController
         $agency = $vehicle->getAgency();
         $reservation = new Reservation();
 
+
+
         $form = $this->createForm(ReservationFormType::class, $reservation);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // if ($reservation->vehicleAlreadyLeased()) {
-            //     // Le véhicule est déjà loué pour la période donnée, afficher un message d'erreur ou rediriger vers une page appropriée
-            //     return new Response('Le véhicule est déjà loué pour cette période.');
-            // }
+            if ($vehicle->isReserved()) {
+                // Le véhicule est déjà loué, affichez un message d'erreur ou redirigez vers une autre page
+                // par exemple :
+                $this->addFlash('error', "Le véhicule n'est plus disponible pour cette periode de reservation.");
+                return $this->redirectToRoute('user.vehicle.reservation.index', ['id' => $vehicle->getId()]);
+            }
 
 
             $reservation->setUser($this->getUser());
@@ -163,18 +167,19 @@ class VehicleController extends AbstractController
             $reservation->setAgency($agency);
             $totalPrice = $reservation->calculateTotalPrice();
             $reservation->setTotalPrice($totalPrice);
+            $reservation->setVehicle($vehicle);
+            $vehicle->setIsReserved(true);
             $em->persist($reservation);
+            $em->persist($vehicle);
             $em->flush();
             $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "pour un montant de " . " " . $reservation->getTotalPrice() . " " . "€" . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
 
             return $this->redirectToRoute('user.vehicle.index');
         }
 
-
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
             'form' => $form->createView(),
-
 
         ]);
     }

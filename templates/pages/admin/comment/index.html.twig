@@ -17,11 +17,12 @@
 {% block main %}
 
 	{% for message in app.flashes('success') %}
-		<div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+		<div class="text-center alert alert-success alert-dismissible fade show my-2" role="alert">
 			{{message}}
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	{% endfor %}
+
 	<section>
 		<h1 class="text-center my-3 display-5">Liste des Commentaires Agences</h1>
 		<div class="table-responsive bg-secondary">
@@ -48,7 +49,7 @@
 								{% if comment.agency is not empty %}
 									{{comment.agency.name}}
 								{% else %}
-									<p>Ne Concerne oas une agence</p>
+									<p>Ne Concerne Pas une agence</p>
 								{% endif %}
 							</td>
 							<td class="text-center">

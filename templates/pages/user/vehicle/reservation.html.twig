@@ -29,6 +29,14 @@
 		{{vehicle.name}}
 	</h1>
 
+	{% for message in app.flashes('error') %}
+		<div class="alert text-center alert-danger alert-dismissible fade show" role="alert">
+			{{message}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endfor %}
+
+
 	<div class="text-center">
 		{% if vehicle.image %}
 			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
@@ -66,8 +74,7 @@
 		</div>
 		{{ form_end(form) }}
 	</div>
-	<p class="text-danger d-flex justify-content-center">info :
-																					Nous Appliquons un taux de tva de 20%
+	<p class="text-danger d-flex justify-content-center">info :Nous Appliquons un taux de tva de 20%
 	</p>
 {% endblock %}
 

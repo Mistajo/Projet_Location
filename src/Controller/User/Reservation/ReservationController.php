@@ -13,6 +13,7 @@ class ReservationController extends AbstractController
     #[Route('/user/reservation/list', name: 'user.reservation.index')]
     public function index(ReservationRepository $reservationRepository): Response
     {
+
         return $this->render('pages/user/reservation/index.html.twig', [
             'reservations' => $reservationRepository->findBy(['user' => $this->getUser()]),
         ]);
