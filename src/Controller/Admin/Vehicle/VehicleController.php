@@ -37,6 +37,7 @@ class VehicleController extends AbstractController
         $form = $this->createForm(VehicleFormType::class, $vehicle);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $vehicle->addUser($this->getUser());
             $em->persist($vehicle);
             $em->flush();
             $this->addFlash("success", "Le vehicle a bien été créé.");
