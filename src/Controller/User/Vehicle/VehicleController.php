@@ -166,7 +166,6 @@ class VehicleController extends AbstractController
             $lastReservation = $em->getRepository(Reservation::class)
                 ->findOneBy(['vehicle' => $vehicleId], ['endDate' => 'DESC']);
 
-
             $existingReservation = $em->getRepository(Reservation::class)->findOneBy([
                 'startDate' => $startDate,
                 'endDate' => $endDate,
