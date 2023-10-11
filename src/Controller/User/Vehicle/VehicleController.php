@@ -14,10 +14,11 @@ use App\Form\CommentFormType;
 use App\Form\ReservationFormType;
 use App\Repository\LikeRepository;
 use App\Repository\AgencyRepository;
-use App\Repository\ReservationRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ReservationRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Service\VehiculeReservationsChecker;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\IsVehiculeDisponibleValidator;
 use Symfony\Component\HttpFoundation\Response;
@@ -142,11 +143,7 @@ class VehicleController extends AbstractController
     #[Route('/user/vehicle/{id}/reservation/index', name: 'user.vehicle.reservation.index')]
     public function Reservation(Vehicle $vehicle, Request $request, EntityManagerInterface $em): Response
     {
-
-        $agency = $vehicle->getAgency();
         $reservation = new Reservation();
-
-
 
         $form = $this->createForm(ReservationFormType::class, $reservation);
 
@@ -154,27 +151,38 @@ class VehicleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($vehicle->isReserved()) {
-                // Le véhicule est déjà loué, affichez un message d'erreur ou redirigez vers une autre page
-                // par exemple :
-                $this->addFlash('error', "Le véhicule n'est plus disponible pour cette periode de reservation.");
-                return $this->redirectToRoute('user.vehicle.reservation.index', ['id' => $vehicle->getId()]);
-            }
+            $startDate = $reservation->getStartDate();
+            $endDate = $reservation->getEndDate();
+            $vehicleId = $vehicle->getId();
 
-
+            $agency = $vehicle->getAgency();
             $reservation->setUser($this->getUser());
             $reservation->setVehicle($vehicle);
             $reservation->setAgency($agency);
             $totalPrice = $reservation->calculateTotalPrice();
             $reservation->setTotalPrice($totalPrice);
             $reservation->setVehicle($vehicle);
-            $vehicle->setIsReserved(true);
-            $em->persist($reservation);
-            $em->persist($vehicle);
-            $em->flush();
-            $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "pour un montant de " . " " . $reservation->getTotalPrice() . " " . "€" . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
 
-            return $this->redirectToRoute('user.vehicle.index');
+            $lastReservation = $em->getRepository(Reservation::class)
+                ->findOneBy(['vehicle' => $vehicleId], ['endDate' => 'DESC']);
+
+
+            $existingReservation = $em->getRepository(Reservation::class)->findOneBy([
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'vehicle' => $vehicleId
+            ]);
+
+            if ($existingReservation) {
+                $this->addFlash('error', "Ce véhicule n'est plus disponible à la réservation pour cette période.");
+            } elseif ($lastReservation && $lastReservation->getEndDate() >= $startDate) {
+                $this->addFlash('error', "Ce véhicule n'est plus disponible à la réservation pour cette période.");
+            } else {
+                $em->persist($reservation);
+                $em->flush();
+                $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "pour un montant de " . " " . $reservation->getTotalPrice() . " " . "€" . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
+                return $this->redirectToRoute('user.vehicle.index');
+            }
         }
 
         return $this->render('pages/user/vehicle/reservation.html.twig', [

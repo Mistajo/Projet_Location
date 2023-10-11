@@ -155,26 +155,6 @@ class Reservation
         return $this->dailyPrice * $nbJours * 1.20;
     }
 
-    /**
-     * Vérifie si le véhicule est déjà loué pour la période donnée.
-     */
-    // public function vehicleAlreadyLeased()
-    // {
-    //     // Remplacez cette logique par l'interrogation de votre source de données, par exemple une requête en base de données
-    //     // Assurez-vous d'ajuster cette logique en fonction de votre structure de données réelle
-    //     $CurrentReservations = $this->$reservationRepository->findBy([
-    //         'vehicule' => $this->vehicle,
-    //         'dateDebut' => $this->startDate,
-    //         'dateFin' => $this->endDate,
-    //     ]);
-
-    //     // Si des réservations existent pour cette période, le véhicule est déjà loué
-    //     if (count($CurrentReservations) > 0) {
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
 
 
 

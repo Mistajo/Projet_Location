@@ -46,20 +46,6 @@ class ReservationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function isVehicleAlreadyReserved(Vehicle $vehicle, \DateTimeInterface $startDate, \DateTimeInterface $endDate)
-    {
-        $qb = $this->createQueryBuilder('l');
-        $qb->where($qb->expr()->eq('l.vehicle', ':vehicle'))
-            ->andWhere($qb->expr()->orX(
-                $qb->expr()->between(':startDate', 'l.startDate', 'l.endDate'),
-                $qb->expr()->between(':endDate', 'l.startDate', 'l.endDate')
-            ))
-            ->setParameter('vehicle', $vehicle)
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate);
 
-        $result = $qb->getQuery()->getOneOrNullResult();
 
-        return $result !== null;
-    }
 }

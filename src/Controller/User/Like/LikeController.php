@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LikeController extends AbstractController
 {
-    #[Route('/user/like/list', name: 'user.like.list')]
+    #[Route('/user/like/list', name: 'user.like.index')]
     public function index(LikeRepository $likeRepository): Response
     {
-        return $this->render('user/like/like/index.html.twig', [
+        return $this->render('pages/user/like/index.html.twig', [
             'likes' => $likeRepository->findBy(['user' => $this->getUser()], ['createdAt' => 'DESC'])
         ]);
     }

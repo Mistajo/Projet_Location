@@ -139,9 +139,6 @@ class Vehicle
     #[ORM\OneToMany(mappedBy: 'vehicle', targetEntity: Reservation::class)]
     private Collection $reservations;
 
-    #[ORM\Column(options: ['default' => false])]
-    private ?bool $isReserved = null;
-
     public function __construct()
     {
         $this->isAvailable = false;
@@ -149,7 +146,6 @@ class Vehicle
         $this->likes = new ArrayCollection();
         $this->user = new ArrayCollection();
         $this->reservations = new ArrayCollection();
-        $this->isReserved = false;
     }
 
     public function getId(): ?int
@@ -452,18 +448,6 @@ class Vehicle
                 $reservation->setVehicle(null);
             }
         }
-
-        return $this;
-    }
-
-    public function isReserved(): ?bool
-    {
-        return $this->isReserved;
-    }
-
-    public function setIsReserved(bool $isReserved): static
-    {
-        $this->isReserved = $isReserved;
 
         return $this;
     }
