@@ -1,0 +1,64 @@
+{% extends 'themes/base_user.html.twig' %}
+
+{% block title %}
+	- User - Ma Reservation N° :
+	{{reservation.id}}
+{% endblock %}
+
+{% block main %}
+	<main class=" my-3">
+		<nav class="my-2" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.reservation.index')}}">Mes Réservations</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Réservation N° :
+					{{reservation.id|u.truncate('50','...')}}</li>
+			</ol>
+		</nav>
+
+		<h1 class="text-center my-3 display-5">Détails de Votre Réservation N° :
+			{{reservation.id}}</h1>
+
+		<div class="container text-center">
+			{% if reservation.vehicle.image %}
+				<img src="{{ vich_uploader_asset(reservation.vehicle, 'imageFile')}}" alt="{{ reservation.vehicle.name }}" class=" h-50 w-50">
+			{% else %}
+				<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ reservation.vehicle.name}}" class="img-fluid">
+			{% endif %}
+
+			<div class="my-3">
+				<h5>
+					<strong>
+						Numéro de Réservation :
+					</strong>
+					{{reservation.Id |u.truncate(70, '...')|raw}}</h5>
+
+				<p>
+					<strong>Nom de l'Agence :</strong>
+					{{reservation.agency.name |u.truncate(70, '...')|raw}}
+				</p>
+				<p>
+					<strong>Nom du Vehicule :</strong>
+					{{reservation.vehicle.name |u.truncate(70, '...')|raw}}
+				</p>
+				<p>
+					<strong>Date de Debut :</strong>
+					{{reservation.startDate | date('d-m-Y H:i:s')}}
+				</p>
+				<p>
+					<strong>Date de Fin :</strong>
+					{{reservation.endDate | date('d-m-Y H:i:s')}}
+				</p>
+				<p>
+					<strong>Prix à payer (Tva Inclue) :</strong>
+					{{reservation.totalPrice}}
+					€
+				</p>
+			</div>
+
+
+		</div>
+	</main>
+
+{% endblock %}

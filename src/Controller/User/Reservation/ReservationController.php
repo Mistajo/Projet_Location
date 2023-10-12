@@ -2,6 +2,7 @@
 
 namespace App\Controller\User\Reservation;
 
+use App\Entity\Vehicle;
 use App\Entity\Reservation;
 use App\Repository\AgencyRepository;
 use App\Repository\VehicleRepository;
@@ -31,6 +32,15 @@ class ReservationController extends AbstractController
 
         return $this->render('pages/user/reservation/index.html.twig', [
             'reservations' => $reservations,
+            'vehicle' => $vehicleRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/user/reservation/{id}/show', name: 'user.reservation.show')]
+    public function show(Reservation $reservation, VehicleRepository $vehicleRepository): Response
+    {
+        return $this->render('pages/user/reservation/show.html.twig', [
+            'reservation' => $reservation,
             'vehicle' => $vehicleRepository->findAll(),
         ]);
     }

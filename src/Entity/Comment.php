@@ -40,6 +40,10 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Vehicle $vehicle = null;
 
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->isActivated = true;
@@ -79,7 +83,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function setContent(?string $content): static
     {
         $this->content = $content;
 
@@ -118,6 +122,18 @@ class Comment
     public function setVehicle(?Vehicle $vehicle): static
     {
         $this->vehicle = $vehicle;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

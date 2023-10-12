@@ -101,13 +101,13 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Vehicle::class, orphanRemoval: true)]
     private Collection $vehicles;
 
-    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Like::class)]
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
 
-    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Reservation::class)]
+    #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Reservation::class, orphanRemoval: true)]
     private Collection $reservations;
 
     public function __construct()

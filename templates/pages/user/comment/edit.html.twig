@@ -1,0 +1,58 @@
+{% extends 'themes/base_user.html.twig' %}
+
+{% block title %}
+	- User - Modifier mon Commentaire
+{% endblock %}
+
+{% block main %}
+	<main>
+		<nav class="my-4" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.comment.index')}}">Mes Commentaires</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Modifier Mon commentaire
+				</li>
+			</ol>
+		</nav>
+
+
+		<h1 class="text-center my-3 display-5">Modifier Mon Commentaire</h1>
+		<div class="container-mt-5">
+			<div class="text-center">
+				{% if comment.vehicle %}
+					<img src="{{ vich_uploader_asset(comment.vehicle, 'imageFile')}} ? " class="w-50 h-50 rounded" alt="{{ comment.vehicle.name }}">
+				{% else %}
+					<img src="{{ vich_uploader_asset(comment.agency, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ comment.agency.name }}">
+				{% endif %}
+				<div class="my-2">
+					{% if comment.vehicle %}
+						<h5>
+							{{comment.vehicle.name}}</h5>
+					{% else %}
+						<h5>
+							{{comment.agency.name}}</h5>
+					{% endif %}
+				</div>
+
+				<div class="col-md-6 mx-auto">
+					{{ form_start(form) }}
+					<div class="mb-3">
+						<label for="">Commentaire :
+						</label>
+						<div class="text-danger">{{ form_errors(form.content) }}</div>
+						{{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+
+						<div class="mb-3 my-2">
+							<input formnovalidate type="submit" class="btn btn-secondary" value="Modifier">
+						</div>
+						{{ form_end(form) }}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+{% endblock %}

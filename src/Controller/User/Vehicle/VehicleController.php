@@ -2,11 +2,9 @@
 
 namespace App\Controller\User\Vehicle;
 
-use DateTime;
+
 use App\Entity\Like;
 use App\Entity\Agency;
-use DateTimeImmutable;
-use DateTimeInterface;
 use App\Entity\Comment;
 use App\Entity\Vehicle;
 use App\Entity\Reservation;
@@ -16,11 +14,8 @@ use App\Repository\LikeRepository;
 use App\Repository\AgencyRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\ReservationRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Service\VehiculeReservationsChecker;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\IsVehiculeDisponibleValidator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +45,6 @@ class VehicleController extends AbstractController
     public function show(Vehicle $vehicle, Request $request, EntityManagerInterface $em): Response
     {
         $comment = new Comment();
-        $agency = $vehicle->getAgency();
 
         $form = $this->createForm(CommentFormType::class, $comment);
 
@@ -60,7 +54,6 @@ class VehicleController extends AbstractController
 
             $comment->setVehicle($vehicle);
             $comment->setUser($this->getUser());
-            $comment->setAgency($agency);
 
             $em->persist($comment);
             $em->flush();

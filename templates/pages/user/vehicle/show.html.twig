@@ -31,8 +31,6 @@
 			<article class="my-3 text-center">
 				<p>Description :
 					{{vehicle.description|raw}}</p>
-
-
 			</article>
 
 			<div class="my-3 text-center">
@@ -42,7 +40,7 @@
 
 				<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-primary">Reserver</a>
 			</div>
-			<div class=" mx-5 my-5"></div>
+
 			<div class="mb-5 mx-5" id="create-comment-box">
 				{{ form_start(form,{'action': path('user.vehicle.show', {'id': vehicle.id})~"#create-comment-box"})}}
 
@@ -87,9 +85,18 @@
 										<strong>{{comment.user.firstName}}
 											{{comment.user.lastName}}</strong>
 										{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-										<small>({{comment.createdAt|ago}})</small>
+										{% if comment.updatedAt is empty %}
+											<small>(Publié
+												{{comment.createdAt|ago}})</small>
+										{% else %}
+											<small>(Modifié
+												{{comment.updatedAt|ago}})</small>
+										{% endif %}
+
 									</p>
 									<p>{{comment.content|nl2br}}</p>
+
+
 								</div>
 							{% endif %}
 							<hr>

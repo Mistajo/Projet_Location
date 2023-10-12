@@ -39,6 +39,8 @@ class AgencyController extends AbstractController
     {
         $comment = new Comment();
 
+
+
         $form = $this->createForm(CommentFormType::class, $comment);
 
         $form->handleRequest($request);
@@ -57,6 +59,7 @@ class AgencyController extends AbstractController
         return $this->render('pages/user/agency/show.html.twig', [
             'agency' => $agency,
             "form" => $form->createView(),
+
         ]);
     }
 
