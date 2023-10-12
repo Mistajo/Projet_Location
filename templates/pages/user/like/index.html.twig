@@ -4,5 +4,14 @@
 	- User - Mes Likes
 	{{app.user.firstName}}
 	{{app.user.lastName}}
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h1 class="text-center my-3 display-5">Mes Likes :
+			{{app.user.firstName}}
+			{{app.user.lastName}}</h1>
+
+	</main>
 
 {% endblock %}
