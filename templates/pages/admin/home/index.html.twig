@@ -5,6 +5,111 @@
 {% endblock %}
 
 {% block main %}
-	<h1 class="text-center my-3 display-5">Hello
-		{{app.user.firstName}}</h1>
+	<h1 class="text-center my-3 display-5">Bienvenue
+		{{app.user.firstName}}
+		{{app.user.lastName}}</h1>
+
+	<div class="container my-2">
+		<div class="row">
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.agency.index')}}">
+					<div class="card text-bg-primary my-2 w-auto h-auto">
+
+						<div class="card-header">Les Agences</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{agencies|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.comment.index')}}">
+					<div class="card text-bg-info my-2 w-auto h-auto">
+
+						<div class="card-header">Les Commentaires</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{comments|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.contact.index')}}">
+					<div class="card text-bg-success my-2 w-auto h-auto">
+
+
+						<div class="card-header">Les Contacts</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{contacts|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.like.index')}}">
+					<div class="card text-bg-light my-2 w-auto h-auto ">
+
+						<div class="card-header">Les Likes</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{likes|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.reservation.index')}}">
+					<div class="card text-bg-secondary my-2 w-auto h-auto">
+
+
+						<div class="card-header">Les Reservations</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{reservations|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.user.index')}}">
+					<div class="card text-bg-warning my-2 w-auto h-auto">
+
+
+						<div class="card-header">Les Utilisateurs</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{users|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('admin.vehicle.index')}}">
+					<div class="card text-bg-danger my-2 w-auto h-auto">
+
+
+						<div class="card-header">Les Vehicules</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{vehicles|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+
+	</div>
+
 {% endblock %}

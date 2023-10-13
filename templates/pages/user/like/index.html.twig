@@ -7,11 +7,86 @@
 {% endblock %}
 
 {% block main %}
-	<main>
+	<main class="my-3">
+		{% for message in app.flashes('success') %}
+			<div class="alert text-center alert-success alert-dismissible fade show my-3" role="alert">
+				{{message}}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+
+
 		<h1 class="text-center my-3 display-5">Mes Likes :
 			{{app.user.firstName}}
 			{{app.user.lastName}}</h1>
 
+		<div class="container my-5">
+
+			{% if likes is empty %}
+				<p class="text-center mt-5">Aucun Like pour l'instant</p>
+			{% else %}
+				<div class="my-2 d-flex flex-column justify-content-center align-items-center">
+					{% for like in likes %}
+						<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 h-100 card mb-3" style="max-width: 740px;">
+							<div class="row g-0">
+								<div class="col-md-4">
+									{% if like.vehicle %}
+										<img src="{{ vich_uploader_asset(like.vehicle, 'imageFile')}} ? " class="w-100 h-100 rounded" alt="{{ like.vehicle.name }}">
+									{% else %}
+										<img src="{{ vich_uploader_asset(like.agency, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ like.agency.name }}">
+									{% endif %}
+								</div>
+								<div class="col-md-8">
+									<div class="card-body">
+										{% if like.vehicle %}
+											<h5 class="card-title">
+												{{like.vehicle.name |u.truncate(70, '...')|raw}}</h5>
+										{% else %}
+											<h5 class="card-title">
+												{{like.agency.name |u.truncate(70, '...')|raw}}</h5>
+										{% endif %}
+										{% if like.vehicle %}
+											<p class="card-text">
+												{{like.vehicle.description |striptags|u.truncate(70, '...')|raw}}
+											</p>
+										{% else %}
+											<p class="card-text">
+												{{like.agency.description |striptags|u.truncate(70, '...')|raw}}
+											</p>
+										{% endif %}
+										<p>
+											<div class=" my-2 d-flex justify-content-between">
+												<a href="{{path('user.like.show', {'id' : like.id})}}" class="btn btn-primary">Détails</a>
+												<a href="#" class="btn btn-danger ms-auto" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer ce like?') && document.querySelector('#form_delete_like_{{like.id}}').submit()" title="Supprimer">Supprimer</a>
+												<form method="POST" id="form_delete_like_{{like.id}}" action="{{path('user.like.delete', {'id':like.id})}}">
+													<input type="hidden" name="csrf_token" value="{{csrf_token('delete_like_'~like.id)}}">
+													<input type="hidden" name="_method" value="delete">
+												</form>
+
+											</div>
+										</p>
+										<p class="card-text">
+											<small>Aimé
+												{{like.createdAt|ago}}</small>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+					{% endfor %}
+
+					{# display navigation #}
+					<div class="mt-2">
+						{{ knp_pagination_render(likes) }}
+					</div>
+				</div>
+
+			{% endif %}
+
+
+		</div>
 	</main>
+
 
 {% endblock %}

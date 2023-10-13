@@ -33,7 +33,6 @@
 												Numéro de Réservation :
 											</strong>
 											{{reservation.Id |u.truncate(70, '...')|raw}}</h5>
-
 										<p class="card-text">
 											<strong>Nom de l'Agence :</strong>
 											{{reservation.agency.name |u.truncate(70, '...')|raw}}
@@ -42,15 +41,6 @@
 											<strong>Nom du Vehicule :</strong>
 											{{reservation.vehicle.name |u.truncate(70, '...')|raw}}
 										</p>
-										<p class="card-text">
-											<strong>Date de Debut :</strong>
-											{{reservation.startDate | date('d-m-Y H:i:s')}}
-										</p>
-										<p class="card-text">
-											<strong>Date de Fin :</strong>
-											{{reservation.endDate | date('d-m-Y H:i:s')}}
-										</p>
-
 										<p>
 											<a href="{{path('user.reservation.show', {'id': reservation.id})}}" class="btn btn-primary">Détails</a>
 										</p>

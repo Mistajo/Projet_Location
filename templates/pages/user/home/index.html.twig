@@ -5,6 +5,78 @@
 {% endblock %}
 
 {% block main %}
-	<h1 class="text-center my-3 display-5">Bienvenue</h1>
+	<h1 class="text-center my-3 display-5">Bienvenue
+		{{app.user.firstName}}
+		{{app.user.lastName}}
+	</h1>
 
+	<div class="container my-2">
+		<div class="row">
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('user.agency.index')}}">
+					<div class="card text-bg-primary my-2 w-auto h-auto">
+						<div class="card-header">Les Agences</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{agencies|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('user.vehicle.index')}}">
+					<div class="card text-bg-info my-2 w-auto h-auto">
+						<div class="card-header">Les Vehicules</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{vehicles|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('user.reservation.index')}}">
+					<div class="card text-bg-success my-2 w-auto h-auto">
+						<div class="card-header">Mes Reservations</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{user.reservations|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('user.like.index')}}">
+					<div class="card text-bg-light my-2 w-auto h-auto ">
+						<div class="card-header">Mes Likes</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{user.likes|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<a class="text-decoration-none" href="{{path('user.comment.index')}}">
+					<div class="card text-bg-secondary my-2 w-auto h-auto">
+						<div class="card-header">Mes Commentaires</div>
+						<div
+							class="card-body">
+							{# <h5 class="card-title">Primary card title</h5> #}
+							<p class="card-text">{{user.comments|length}}</p>
+						</div>
+					</div>
+				</a>
+			</div>
+
+		</div>
+
+	</div>
 {% endblock %}
