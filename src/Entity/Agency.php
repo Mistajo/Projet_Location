@@ -110,6 +110,9 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Reservation::class, orphanRemoval: true)]
     private Collection $reservations;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -380,6 +383,18 @@ class Agency
                 $reservation->setAgency(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }
