@@ -32,7 +32,7 @@ class UserFixtures extends Fixture
         $passwordHashed = $this->hasher->hashPassword($user, "Joan@456789*");
         $user->setFirstName('Dwayne');
         $user->setLastName('Johnson');
-        $user->setEmail('ridelocation@gmail.com');
+        $user->setEmail('ridelocation59@hotmail.com');
         $user->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_USER']);
         $user->setAddress('8 avenue champs élysée');
         $user->setTown('Paris');

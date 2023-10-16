@@ -46,22 +46,6 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('admin.comment.index');
     }
 
-    // #[Route('/admin/comment/{id}/activate/vehicle', name: 'admin.comment.activate.vehicle', methods: ['PUT'])]
-    // public function activateVehicle(Comment $comment, EntityManagerInterface $em, Request $request): Response
-    // {
-    //     if ($this->isCsrfTokenValid("comment_activate_vehicle_" . $comment->getId(), $request->request->get('csrf_token'))) {
-    //         if ($comment->isIsActivated() == true) {
-    //             $comment->setIsActivated(false);
-    //             $this->addFlash('success', 'Le commentaire a été désactivé');
-    //         } else {
-    //             $comment->setIsActivated(true);
-    //             $this->addFlash('success', 'Le commentaire a été activé');
-    //         }
-    //         $em->persist($comment);
-    //         $em->flush();
-    //     }
-    //     return $this->redirectToRoute('admin.comment.index');
-    // }
 
     #[Route('/admin/comment/{id}/delete', name: 'admin.comment.delete', methods: ['DELETE'])]
     public function delete(Comment $comment, Request $request, EntityManagerInterface $em): Response
@@ -76,18 +60,6 @@ class CommentController extends AbstractController
         return $this->redirectToRoute('admin.comment.index');
     }
 
-    // #[Route('/admin/comment/{id}/delete/vehicle', name: 'admin.comment.delete_vehicle', methods: ['DELETE'])]
-    // public function deleteVehicle(Comment $comment, Request $request, EntityManagerInterface $em): Response
-    // {
-    //     if ($this->isCsrfTokenValid("delete_comment_vehicle_" . $comment->getId(), $request->request->get('csrf_token'))) {
-    //         $em->remove($comment);
-    //         $em->flush();
-
-    //         $this->addFlash('success', "Le commentaire du véhicule a été supprimé.");
-    //     }
-
-    //     return $this->redirectToRoute('admin.comment.index');
-    // }
 
     #[Route('/admin/comments/multiple-comments-delete', name: 'admin.comments.multiple_delete', methods: ['DELETE'])]
     public function multipleDelete(

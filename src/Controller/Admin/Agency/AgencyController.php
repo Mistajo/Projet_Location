@@ -32,7 +32,7 @@ class AgencyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($agency);
             $em->flush();
-            $this->addFlash("success", "L'agence a bien été crée.");
+            $this->addFlash("success", "L'agence" . " " . $agency->getname() . " " . "a bien été crée.");
             return $this->redirectToRoute("admin.agency.index");
         }
         return $this->render("pages/admin/agency/create.html.twig", [
@@ -57,7 +57,7 @@ class AgencyController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash("success", "L'agence a bien été modifiée.");
+            $this->addFlash("success", "L'agence" . " " . $agency->getname() . " " .  "a bien été modifiée.");
             return $this->redirectToRoute("admin.agency.index");
         }
         return $this->render("pages/admin/agency/edit.html.twig", [
