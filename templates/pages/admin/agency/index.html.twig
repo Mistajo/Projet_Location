@@ -53,6 +53,7 @@
 					<th>Adresse</th>
 					<th>Ville</th>
 					<th>Code Postal</th>
+					<th>Numero de Téléphone</th>
 					<th>Image</th>
 					<th>Description</th>
 					<th>Créer Le
@@ -81,6 +82,12 @@
 						</td>
 						<td>
 							{{agency.zipCode}}
+						</td>
+						<td>
+							<i class="fa-solid fa-square-phone"></i>
+							:
+							{{agency.phone}}
+
 						</td>
 						<td>
 							{% if agency.image %}

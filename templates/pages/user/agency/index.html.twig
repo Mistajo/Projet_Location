@@ -27,6 +27,9 @@
 							<p class="card-text">CP :
 								{{ agency.zipCode|striptags|u.truncate(70, '...')|raw }}
 							</p>
+							<p class="card-text">Numéro de Téléphone :
+								{{ agency.phone|raw }}
+							</p>
 							<p>
 								<a href="{{path('user.agency.show', {'id' : agency.id})}}" class="btn btn-primary">Details</a>
 							</p>

@@ -43,6 +43,7 @@
 					</th>
 					<th>Modifié le :</th>
 					<th>Verifié le :</th>
+					<th>Derniere Connexion le :</th>
 					<th>Options :</th>
 				</tr>
 			</thead>
@@ -79,7 +80,7 @@
 								</span>
 							{% endif %}
 						</td>
-
+						<td>{{user.lastLoginAt|date('d-m-Y H:i:s')}}</td>
 						<td>
 							{% if "ROLE_SUPER_ADMIN" not in user.roles %}
 								{% if user.isVerified %}

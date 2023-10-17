@@ -57,6 +57,12 @@
 							<i class="fa-solid fa-lock"></i>
 							Espace Admin</a>
 					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link d-flex align-items-center gap-2" href="{{path('visitor.contact.create')}}">
+							<i class="fa-solid fa-address-card"></i>
+							Contact</a>
+					</li>
 				{% endif %}
 				<li class="nav-item">
 					<a class="nav-link d-flex align-items-center gap-2" href="{{path('visitor.welcome.index')}}">
