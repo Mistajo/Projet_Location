@@ -25,7 +25,7 @@ class AgencyController extends AbstractController
         $agencies = $paginator->paginate(
             $agency, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            4 /*limit per page*/
         );
 
         return $this->render('pages/user/agency/index.html.twig', [

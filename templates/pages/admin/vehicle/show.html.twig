@@ -22,11 +22,14 @@
 
 	<div class="container text-center">
 		{% if vehicle.image %}
-			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" alt="{{ vehicle.name }}" class="img-fluid">
+			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" alt="{{ vehicle.name }}" class="h-50 w-50">
 		{% else %}
-			<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ vehicle.name}}" class="img-fluid">
-		{% endif %}
+			<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ vehicle.name}}" class="h-50 w-50">
 
-		{{vehicle.description|raw}}
+		{% endif %}
+		<p class="text-center mt-3">
+			{{vehicle.description|raw}}
+
+		</p>
 	</div>
 {% endblock %}

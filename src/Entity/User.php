@@ -147,6 +147,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $LastLoginAt = null;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
@@ -436,6 +439,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reservation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastLoginAt(): ?\DateTime
+    {
+        return $this->LastLoginAt;
+    }
+
+    public function setLastLoginAt(?\DateTime $LastLoginAt): static
+    {
+        $this->LastLoginAt = $LastLoginAt;
 
         return $this;
     }

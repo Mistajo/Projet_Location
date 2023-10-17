@@ -78,9 +78,18 @@
 									<strong>{{comment.user.firstName}}
 										{{comment.user.lastName}}</strong>
 									{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-									<small>({{comment.createdAt|ago}})</small>
+									{% if comment.updatedAt is empty %}
+										<small>(Publié
+											{{comment.createdAt|ago}})</small>
+									{% else %}
+										<small>(Modifié
+											{{comment.updatedAt|ago}})</small>
+									{% endif %}
 								</p>
+
 								<p>{{comment.content|nl2br}}</p>
+
+
 							</div>
 
 						{% endif %}
@@ -97,31 +106,31 @@
 
 
 				{# {% set count = 0 %}
-																																{% if agency.comments is not empty %}
-																																	{% for comment in agency.comments %}
-																																		{% if comment.isActivated %}
-																																			{% set count = count + 1 %}
-																																		{% endif %}
-																																	{% endfor %}
-																																	{% if count <= 0 %}
-																																		<p class="my-3 mx-5">Aucun Commentaire laissé</p>
-																																	{% else %}
-																																		{% for comment in agency.comments|reverse %}
-																																			{% if comment.isActivated %}
-																																				<div class="my-3 p-2 mx-5 border shadow">
-																																					<p>
-																																						<strong>{{comment.user.firstName}}
-																																							{{comment.user.lastName}}</strong>
-																																						{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-																																						<small>({{comment.createdAt|ago}})</small>
-																																					</p>
-																																					<p>{{comment.content|nl2br}}</p>
-																																				</div>
-																																			{% endif %}
-																																			<hr>
-																																		{% endfor %}
-																																	{% endif %}
-																																{% endif %} #}
+																																																																				{% if agency.comments is not empty %}
+																																																																					{% for comment in agency.comments %}
+																																																																						{% if comment.isActivated %}
+																																																																							{% set count = count + 1 %}
+																																																																						{% endif %}
+																																																																					{% endfor %}
+																																																																					{% if count <= 0 %}
+																																																																						<p class="my-3 mx-5">Aucun Commentaire laissé</p>
+																																																																					{% else %}
+																																																																						{% for comment in agency.comments|reverse %}
+																																																																							{% if comment.isActivated %}
+																																																																								<div class="my-3 p-2 mx-5 border shadow">
+																																																																									<p>
+																																																																										<strong>{{comment.user.firstName}}
+																																																																											{{comment.user.lastName}}</strong>
+																																																																										{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
+																																																																										<small>({{comment.createdAt|ago}})</small>
+																																																																									</p>
+																																																																									<p>{{comment.content|nl2br}}</p>
+																																																																								</div>
+																																																																							{% endif %}
+																																																																							<hr>
+																																																																						{% endfor %}
+																																																																					{% endif %}
+																																																																				{% endif %} #}
 
 			</div>
 		</div>

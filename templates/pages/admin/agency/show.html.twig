@@ -24,11 +24,13 @@
 
 			<div class="container text-center">
 				{% if agency.image %}
-					<img src="{{ vich_uploader_asset(agency, 'imageFile')}}" alt="{{ agency.name }}" class="img-fluid">
+					<img src="{{ vich_uploader_asset(agency, 'imageFile')}}" alt="{{ agency.name }}" class="h-50 w-50">
 				{% else %}
-					<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ agency.name}}" class="img-fluid">
+					<img src="{{asset('images/vehicles/no_image.jpg')}}" alt="{{ agency.name}}" class="h-50 w-50">
 				{% endif %}
+				<p class="text-center mt-3">
+					{{agency.description|raw}}
 
-				{{agency.description|raw}}
+				</p>
 			</div>
 		{% endblock %}
