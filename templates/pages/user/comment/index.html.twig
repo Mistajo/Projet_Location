@@ -32,7 +32,7 @@
 							<div class="row g-0">
 								<div class="col-md-4">
 									{% if comment.vehicle %}
-										<img src="{{ vich_uploader_asset(comment.vehicle, 'imageFile')}} ? " class="w-100 h-100 rounded" alt="{{ comment.vehicle.name }}">
+										<img src="{{ vich_uploader_asset(comment.vehicle, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ comment.vehicle.name }}">
 									{% else %}
 										<img src="{{ vich_uploader_asset(comment.agency, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ comment.agency.name }}">
 									{% endif %}

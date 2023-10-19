@@ -6,16 +6,28 @@
 
 {% block main %}
 	<main>
-		<h1 class="text-center my-3 display-5">Nos Vehicules</h1>
-
-		{% for message in app.flashes('success') %}
-			<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
-				{{message}}
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		{% endfor %}
 
 		<div class="container mt-3">
+
+			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{path('user.vehicle.index')}}">Vehicules</a>
+					</li>
+
+				</ol>
+			</nav>
+
+
+			<h1 class="text-center my-3 display-5">Nos Vehicules</h1>
+
+			{% for message in app.flashes('success') %}
+				<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+
 			<div class="row text-center">
 				<div class="dropdown-center text-center my-5">
 					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,8 +68,9 @@
 													{{ vehicle.dailyPrice }}
 													€</p>
 												<p class="card-text">{{ vehicle.description|striptags|u.truncate(70, '...')|raw }}</p>
-												<p>
+												<p class="d-flex justify-content-between">
 													<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}" class="btn btn-primary">Details</a>
+													<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-secondary">Reserver</a>
 												</p>
 											</div>
 										</div>
