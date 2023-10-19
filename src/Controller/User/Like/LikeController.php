@@ -44,7 +44,7 @@ class LikeController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/like/{id}/delete', name: 'user.like.delete', methods: ['DELETE'])]
+    #[Route('/user/like/{id}/delete', name: 'user.like.delete', methods: ['DELETE'])]
     public function delete(Like $like, EntityManagerInterface $em, Request $request): Response
     {
         if ($this->isCsrfTokenValid("delete_like_" . $like->getId(), $request->request->get("csrf_token"))) {

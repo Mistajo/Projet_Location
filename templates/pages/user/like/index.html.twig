@@ -27,11 +27,11 @@
 			{% else %}
 				<div class="my-2 d-flex flex-column justify-content-center align-items-center">
 					{% for like in likes %}
-						<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 h-100 card mb-3" style="max-width: 740px;">
+						<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 h-100 card mb-3" style="max-width: 800px;">
 							<div class="row g-0">
 								<div class="col-md-4">
 									{% if like.vehicle %}
-										<img src="{{ vich_uploader_asset(like.vehicle, 'imageFile')}} ? " class="w-100 h-100 rounded" alt="{{ like.vehicle.name }}">
+										<img src="{{ vich_uploader_asset(like.vehicle, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ like.vehicle.name }}">
 									{% else %}
 										<img src="{{ vich_uploader_asset(like.agency, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ like.agency.name }}">
 									{% endif %}

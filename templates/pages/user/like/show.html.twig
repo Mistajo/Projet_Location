@@ -21,7 +21,7 @@
 			</h1>
 			<div class="container text-center">
 				{% if like.vehicle %}
-					<img src="{{ vich_uploader_asset(like.vehicle, 'imageFile')}} ? " class="w-50 h-50 rounded" alt="{{ like.vehicle.name }}">
+					<img src="{{ vich_uploader_asset(like.vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ like.vehicle.name }}">
 				{% else %}
 					<img src="{{ vich_uploader_asset(like.agency, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ like.agency.name }}">
 				{% endif %}

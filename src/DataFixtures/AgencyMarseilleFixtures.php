@@ -21,7 +21,7 @@ class AgencyMarseilleFixtures extends Fixture
         $agency->setTown('Marseille');
         $agency->setzipCode('13002');
         $agency->setPhone('04 45 02 03 04');
-        $agency->setImage('Agence_Marseille.jpg');
+        $agency->setImage('Agence_marseille.jpg');
 
         $vehicle1 = new Vehicle();
         $vehicle1->setName('Ferrari F12');
