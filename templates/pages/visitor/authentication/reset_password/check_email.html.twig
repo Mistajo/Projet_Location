@@ -3,13 +3,18 @@
 {% block title %}L'email de la réinitialisation du mot de passe vous a été renvoyé
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur notre page d'attente de réinitialisation du mot de passe . La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<main class"container-fluid text-center mt-5">
 		<div class="row">
 			<div class="col-md-8 mx-auto">
 				<p>
 					Si un compte correspondant à votre adresse e-mail existe, un e-mail contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe vient d'être envoyé.
-															Ce lien expirera dans
+																									Ce lien expirera dans
 					{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
 				</p>
 				<p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou

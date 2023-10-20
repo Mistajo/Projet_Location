@@ -6,6 +6,11 @@
 	{{app.user.lastName}}
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur la page de modification du profil de l'administrateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<h1 class="text-center my-3 display-5">Modification du profil :
 		{{app.user.firstName}}
@@ -17,14 +22,14 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Prénom</label>
+						<label for="edit_profile_form_firsName">Prénom</label>
 						<div class="text-danger">{{ form_errors(form.firstName) }}</div>
 						{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Nom</label>
+						<label for="edit_profile_form_lastName">Nom</label>
 						<div class="text-danger">{{ form_errors(form.lastName) }}</div>
 						{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
 					</div>
@@ -33,14 +38,14 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Adresse</label>
+						<label for="edit_profile_form_address">Adresse</label>
 						<div class="text-danger">{{ form_errors(form.address) }}</div>
 						{{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Ville</label>
+						<label for="edit_profile_form_town">Ville</label>
 						<div class="text-danger">{{ form_errors(form.town) }}</div>
 						{{ form_widget(form.town, { 'attr': {'class': 'form-control'} }) }}
 					</div>
@@ -49,14 +54,14 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Code Postal</label>
+						<label for="edit_profile_form_zipCode">Code Postal</label>
 						<div class="text-danger">{{ form_errors(form.zipCode) }}</div>
 						{{ form_widget(form.zipCode, { 'attr': {'class': 'form-control'} }) }}
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Email</label>
+						<label for="edit_profile_form_email">Email</label>
 						<div class="text-danger">{{ form_errors(form.email) }}</div>
 						{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
 					</div>

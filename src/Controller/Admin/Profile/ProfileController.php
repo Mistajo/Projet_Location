@@ -13,35 +13,43 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfileController extends AbstractController
 {
+    // Route page d'accueil profil admin
     #[Route('/admin/profile', name: 'admin.profile.index')]
     public function index(): Response
     {
-
+        // on redirige vers la page d'accueil du profile admin
         return $this->render('pages/admin/profile/index.html.twig');
     }
 
+    // route page de modification du profil admin. avec les methodes GET OU PUT(pour utiliser la methode PUT et DELETE, il faut que http_method_override et handle_all_throwables soient sur TRUE dans le fichier config/packages/framework.yaml)
     #[Route('/admin/profile/edit', name: 'admin.profile.edit', methods: ['GET', 'PUT'])]
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
+        // on recupere l'utilisateur connecté
         $user = $this->getUser();
+        // on créer le formulaire pour modifier le profil en precisant la methode PUT
         $form = $this->createForm(EditProfileFormType::class, $user, ['method' => 'PUT']);
-
+        // on prepare la requette 
         $form->handleRequest($request);
-
+        // si le formulaire est soumis et valide 
         if ($form->isSubmitted() && $form->isValid()) {
+            // le manager des entités prepare la requette
             $em->persist($user);
+            // le manager des entités execute la requete
             $em->flush();
-
+            // on affiche un message de succes
             $this->addFlash('success', 'Votre profil a bien été modifié');
-
+            // on redirige vers la page de profil de l'admin
             return $this->redirectToRoute('admin.profile.index');
         }
-
+        // on redirige vers la page de modification du profil de l'admin
         return $this->render('pages/admin/profile/edit.html.twig', [
+            // on passe le formulaire dans la vue
             "form" => $form->createView()
         ]);
     }
 
+    // Route de modification du mot de passe de l'admin
     #[Route('/admin/profile/edit-password', name: 'admin.profile.edit_password', methods: ['GET', 'PUT'])]
     public function editPassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response
     {

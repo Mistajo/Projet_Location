@@ -5,6 +5,11 @@
 	{{agency.name}}
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur la page d'une agence de l'utilisateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<main>
 		<div class="container my-5">
@@ -91,14 +96,10 @@
 								</p>
 
 								<p>{{comment.content|nl2br}}</p>
-
-
 							</div>
-
 						{% endif %}
 						<hr>
 					{% endfor %}
-
 				{% else %}
 					<div class="my-3 mx-5">
 						<p>Aucun commentaire pour l'instant...</p>
@@ -106,34 +107,6 @@
 					</div>
 
 				{% endif %}
-
-
-				{# {% set count = 0 %}
-																																																																												{% if agency.comments is not empty %}
-																																																																													{% for comment in agency.comments %}
-																																																																														{% if comment.isActivated %}
-																																																																															{% set count = count + 1 %}
-																																																																														{% endif %}
-																																																																													{% endfor %}
-																																																																													{% if count <= 0 %}
-																																																																														<p class="my-3 mx-5">Aucun Commentaire laissé</p>
-																																																																													{% else %}
-																																																																														{% for comment in agency.comments|reverse %}
-																																																																															{% if comment.isActivated %}
-																																																																																<div class="my-3 p-2 mx-5 border shadow">
-																																																																																	<p>
-																																																																																		<strong>{{comment.user.firstName}}
-																																																																																			{{comment.user.lastName}}</strong>
-																																																																																		{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-																																																																																		<small>({{comment.createdAt|ago}})</small>
-																																																																																	</p>
-																																																																																	<p>{{comment.content|nl2br}}</p>
-																																																																																</div>
-																																																																															{% endif %}
-																																																																															<hr>
-																																																																														{% endfor %}
-																																																																													{% endif %}
-																																																																												{% endif %} #}
 
 			</div>
 		</div>

@@ -4,6 +4,11 @@
 	- Réinitialisation du mot de passe
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur notre page de réinitialisation du mot de passe. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<main class="container-fluid">
 		{% for flash_error in app.flashes('reset_password_error') %}

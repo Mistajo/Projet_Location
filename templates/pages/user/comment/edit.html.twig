@@ -4,6 +4,11 @@
 	- User - Modifier mon Commentaire
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur la page de modification du commentaire de l'utilisateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<main>
 		<nav class="my-4" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -38,7 +43,7 @@
 				<div class="col-md-6 mx-auto">
 					{{ form_start(form) }}
 					<div class="mb-3">
-						<label for="">Commentaire :
+						<label for="edit_form_content">Commentaire :
 						</label>
 						<div class="text-danger">{{ form_errors(form.content) }}</div>
 						{{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}

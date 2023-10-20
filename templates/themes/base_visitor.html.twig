@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block SEO %}
+			<meta charset="UTF-8">
+			<meta http-equiv="X-UA-Compatible" content="ie=edge">
+			<meta http-equiv="X-UA-Compatible" content="IE=7">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% endblock %}
 
 
 		<title>Ride-Location
 			{% block title %}{% endblock %}
 		</title>
 
-		{# Favicon #}
-		<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
-		<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
-		<link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')}}">
-		<link rel="manifest" href={{asset('favicon/site.webmanifest')}}>
-		<meta name="msapplication-TileColor" content="#da532c">
-		<meta
-		name="theme-color" content="#ffffff">
+		{% block description %}
+			<meta name="description" content="
+																				La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+		{% endblock %}
+
+		{% block Favicon %}
+			{# Favicon #}
+			<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+			<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
+			<link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')}}">
+			<link rel="manifest" href={{asset('favicon/site.webmanifest')}}>
+			<meta name="msapplication-TileColor" content="#da532c">
+			<meta name="theme-color" content="#ffffff">
+		{% endblock %}
+
+		{% block Font_Family %}
+			{# Font family #}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
+		{% endblock %}
 
 
-		{# Font family #}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
-
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		{% block Boostrap %}
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		{% endblock %}
 
 
-		{% block stylesheets %}
+		{% block webpack_encore_stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
-		{% block javascripts %}
+		{% block webpack_encore_javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+
+		{% block jQuery %}
+			<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		{% endblock %}
+
 
 		{% block AOS %}
 			<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -52,6 +68,7 @@
 		</main>
 
 		{% include "layouts/footer/footer_visitor.html.twig" %}
+
 
 		<script src="https://kit.fontawesome.com/b0028a8555.js" crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

@@ -4,19 +4,24 @@
 	- Admin - Modifier Cette Agence
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur la page de modification d'une agence de l'administrateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block main %}
 	<h1 class="text-center my-3 display-5">Modifier Cette Agence</h1>
 	<div class="container mt-5">
 		<div class="col-md-6 mx-auto">
 			{{ form_start(form) }}
 			<div class="mb-3">
-				<label for="">Nom :
+				<label for="edit_agency_form_name">Nom :
 				</label>
 				<div class="text-danger">{{ form_errors(form.name) }}</div>
 				{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 			</div>
 			<div class="mb-3">
-				<label for="">Adresse :
+				<label for="edit_agency_form_address">Adresse :
 				</label>
 				<div class="text-danger">{{ form_errors(form.address) }}</div>
 				{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
@@ -24,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Ville :
+						<label for="edit_agency_form_town">Ville :
 						</label>
 						<div class="text-danger">{{ form_errors(form.town) }}</div>
 						{{ form_widget(form.town, {'attr': {'class': 'form-control'}}) }}
@@ -32,7 +37,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Code Postal :
+						<label for="edit_agency_form_zipCode">Code Postal :
 						</label>
 						<div class="text-danger">{{ form_errors(form.zipCode) }}</div>
 						{{ form_widget(form.zipCode, {'attr': {'class': 'form-control'}}) }}
@@ -41,7 +46,7 @@
 			</div>
 			<div class="row mb-3">
 				<div class="col-md-6">
-					<label for="">Image</label>
+					<label for="edit_agency_form_imageFile">Image</label>
 					<div class="text-danger">{{ form_errors(form.imageFile) }}</div>
 					{{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}
 				</div>
@@ -56,7 +61,7 @@
 				</div>
 
 				<div class="mb-3">
-					<label for="">Description</label>
+					<label for="edit_agency_form_description">Description</label>
 					<div class="text-danger">{{ form_errors(form.description) }}</div>
 					{{form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}})}}
 				</div>

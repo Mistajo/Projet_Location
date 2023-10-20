@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block SEO %}
+			<meta charset="UTF-8">
+			<meta http-equiv="X-UA-Compatible" content="ie=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta http-equiv="X-UA-Compatible" content="IE=7">
+			<meta name="description" content="Bienvenue sur notre page d'inscription. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+		{% endblock %}
 
 
 		<title>Ride-Location : Inscription
-
 		</title>
 
-		{# Favicon #}
-		<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
-		<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
-		<link rel="icon" type="image/png" sizes="16x16" href="{{asset('/favicon-16x16.png')}}">
-		<link
-		rel="manifest" href="/site.webmanifest">
+		{% block Favicon %}
+			{# Favicon #}
+			<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+			<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
+			<link rel="icon" type="image/png" sizes="16x16" href="{{asset('/favicon-16x16.png')}}">
+			<link rel="manifest" href="/site.webmanifest">
+		{% endblock %}
 
-		{# Font family #}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
+		{% block Font_Family %}
+			{# Font family #}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
+		{% endblock %}
 
 
 		{% block stylesheets %}
@@ -40,9 +44,11 @@
 					<img src="{{ asset('images/visitor/registration/Incrivez-vous-pour-louer-des-vehicules.png') }}" class="img-fluid" alt="Inscrivez vous pour lire des articles sur la santé">
 				</div>
 				<div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
+
 					{% for flash_error in app.flashes('verify_email_error') %}
 						<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 					{% endfor %}
+
 					{{ form_start(registrationForm) }}
 					<div class="row">
 						<div class="col-md-6">
@@ -137,5 +143,4 @@
 			</div>
 		</div>
 	</body>
-
 </html>

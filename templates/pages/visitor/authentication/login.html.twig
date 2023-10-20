@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block SEO %}
+			<meta charset="UTF-8">
+			<meta http-equiv="X-UA-Compatible" content="ie=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta http-equiv="X-UA-Compatible" content="IE=7">
+		{% endblock %}
 
 
 		<title>Ride-Location : Connexion
-
 		</title>
+
+		{% block description %}
+			<meta name="description" content="Bienvenue sur notre page de connexion. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+		{% endblock %}
+
 
 		{# Favicon #}
 		<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">

@@ -5,6 +5,11 @@
 	{{vehicle.name}}
 {% endblock %}
 
+{% block description %}
+	<meta name="description" content="Bienvenue sur la page de modification d'un vehicule de l'administrateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
 {% block tinyMCE %}
 	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 	<script>
@@ -23,7 +28,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Nom :
+						<label for="edit_vehicle_form_name">Nom :
 						</label>
 						<div class="text-danger">{{ form_errors(form.name) }}</div>
 						{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -31,7 +36,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Marque :
+						<label for="edit_vehicle_form_brand">Marque :
 						</label>
 						<div class="text-danger">{{ form_errors(form.brand) }}</div>
 						{{ form_widget(form.brand, {'attr': {'class': 'form-control'}}) }}
@@ -41,7 +46,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Modele :
+						<label for="edit_vehicle_form_model">Modele :
 						</label>
 						<div class="text-danger">{{ form_errors(form.model) }}</div>
 						{{ form_widget(form.model, {'attr': {'class': 'form-control'}}) }}
@@ -49,7 +54,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="mb-3">
-						<label for="">Immatriculation :
+						<label for="edit_vehicle_form_registration">Immatriculation :
 						</label>
 						<div class="text-danger">{{ form_errors(form.registration) }}</div>
 						{{ form_widget(form.registration, {'attr': {'class': 'form-control'}}) }}
@@ -57,7 +62,7 @@
 				</div>
 			</div>
 			<div class="mb-3">
-				<label for="">Agence :
+				<label for="edit_vehicle_form_agency">Agence :
 				</label>
 				<div class="text-danger">{{ form_errors(form.agency) }}</div>
 				{{ form_widget(form.agency, {'attr': {'class': 'form-control'}}) }}
@@ -65,7 +70,7 @@
 
 			<div class="row mb-3">
 				<div class="col-md-6">
-					<label for="">Image :
+					<label for="edit_vehicle_form_imageFile">Image :
 					</label>
 					<div class="text-danger">{{ form_errors(form.imageFile) }}</div>
 					{{form_widget(form.imageFile, {'attr': {'class': 'form-control'}})}}
@@ -80,7 +85,7 @@
 				</div>
 			</div>
 			<div class="mb-3">
-				<label for="">
+				<label for="edit_vehicle_form_dailyPrice">
 					/jour :
 				</label>
 				<div class="text-danger">{{ form_errors(form.dailyPrice) }}</div>
@@ -88,7 +93,7 @@
 			</div>
 
 			<div class="mb-3">
-				<label for="">Description :
+				<label for="edit_vehicle_form_description">Description :
 				</label>
 				<div class="text-danger">{{ form_errors(form.description) }}</div>
 				{{form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}})}}

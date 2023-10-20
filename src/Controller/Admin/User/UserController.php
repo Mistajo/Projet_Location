@@ -13,10 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
+    // Route pour l'affichage de la liste des utilisateurs
     #[Route('/admin/user/list', name: 'admin.user.index')]
     public function index(UserRepository $userRepository): Response
     {
+        // on redirige vers la page d'accueil  des utilisateurs
         return $this->render('pages/admin/user/index.html.twig', [
+            // on récupère tout les utilisateurs dans la vue
             "users" => $userRepository->findAll()
         ]);
     }
