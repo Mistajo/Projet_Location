@@ -26,7 +26,7 @@
 		<div class="container-mt-5">
 			<div class="text-center">
 				{% if comment.vehicle %}
-					<img src="{{ vich_uploader_asset(comment.vehicle, 'imageFile')}} ? " class="w-50 h-50 rounded" alt="{{ comment.vehicle.name }}">
+					<img src="{{ vich_uploader_asset(comment.vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ comment.vehicle.name }}">
 				{% else %}
 					<img src="{{ vich_uploader_asset(comment.agency, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ comment.agency.name }}">
 				{% endif %}
