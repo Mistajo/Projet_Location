@@ -10,7 +10,11 @@
 
 .header_section{
     background-image: url(/public/images/accueil/voiture_background.jpg);
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
 
 .centered-image {
     display: block;
