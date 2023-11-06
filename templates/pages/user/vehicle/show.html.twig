@@ -11,109 +11,93 @@
 
 
 {% block main %}
-	<main>
-		<div class="container my-5">
-			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="{{path('user.vehicle.index')}}">Vehicules</a>
-					</li>
-					<li class="breadcrumb-item active" aria-current="page">{{vehicle.name|u.truncate('50','...')}}</li>
-				</ol>
-			</nav>
 
-			<div class="text-center my-3">
-				<h1 class=" my-3 display-5">{{vehicle.name}}</h1>
-			</div>
-			<div class="text-center">
-				{% if vehicle.image %}
-					<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
-				{% else %}
-					<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
-				{% endif %}
-			</div>
+	<div class="container mt-5">
+		<nav class="text-center" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.vehicle.index')}}">Vehicules</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">{{vehicle.name|u.truncate('50','...')}}</li>
+			</ol>
+		</nav>
 
-			<article class="my-3 text-center">
-				<p>Description :
-					{{vehicle.description|raw}}</p>
-			</article>
+		<div class="text-center my-3">
+			<h1 class=" my-3 display-5">{{vehicle.name}}</h1>
+		</div>
+		<div class="text-center">
+			{% if vehicle.image %}
+				<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
+			{% else %}
+				<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
+			{% endif %}
+		</div>
 
-			<div class="my-3 text-center">
-				<p>Prix Journalier :
-					{{vehicle.dailyPrice}}
-					€</p>
+		<div class="mt-4 text-center">
+			<p>Description :
+				{{vehicle.description|raw}}</p>
 
-				<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-primary">Reserver</a>
-			</div>
+			<p>Prix Journalier :
+				{{vehicle.dailyPrice}}
+				€</p>
 
-			<div class="mb-5 mx-5" id="create-comment-box">
-				{{ form_start(form,{'action': path('user.vehicle.show', {'id': vehicle.id})~"#create-comment-box"})}}
+			<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-primary">Reserver</a>
+		</div>
 
-				<div class="my-3 mx-5">
-					<a id="like-link" href="{{path('user.vehicle.like',{'id':vehicle.id})}}">
-						{% if app.user and vehicle.isLikedBy(app.user) %}
-							<i class="fa-solid fa-thumbs-up"></i>
-							{# Pouce Liké #}
-						{% else %}
-							<i class="fa-regular fa-thumbs-up"></i>
-							{# Pouce non liké #}
-						{% endif %}
-						<span id="total-likes-container">{{vehicle.Likes|length}}</span>
-						<span>J'aime</span>
-					</a>
-				</div>
-				<div class="mx-5">
-					<div class="text-danger">{{ form_errors(form.content) }}</div>
-					{{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Laissez un Commentaire...', "rows" : 5}}) }}
-				</div>
-				<div class=" mx-5 my-2">
-					<input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
-				</div>
-				{{ form_end(form) }}
-			</div>
+		<div class="mb-5 mx-5" id="create-comment-box">
+			{{ form_start(form,{'action': path('user.vehicle.show', {'id': vehicle.id})~"#create-comment-box"})}}
 
 			<div class="my-3 mx-5">
-				{% set count = 0 %}
-				{% if vehicle.comments is not empty %}
-					{% for comment in vehicle.comments %}
-						{% if comment.isActivated %}
-							{% set count = count + 1 %}
-						{% endif %}
-					{% endfor %}
-					{% if count <= 0 %}
-						<p class="my-3 mx-5">Aucun Commentaire laissé</p>
+				<a id="like-link" href="{{path('user.vehicle.like',{'id':vehicle.id})}}">
+					{% if app.user and vehicle.isLikedBy(app.user) %}
+						<i class="fa-solid fa-thumbs-up"></i>
+						{# Pouce Liké #}
 					{% else %}
-						{% for comment in vehicle.comments|reverse %}
-							{% if comment.isActivated %}
-								<div class="my-3 p-2 mx-5 border shadow">
-									<p>
-										<strong>{{comment.user.firstName}}
-											{{comment.user.lastName}}</strong>
-										{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-										{% if comment.updatedAt is empty %}
-											<small>(Publié
-												{{comment.createdAt|ago}})</small>
-										{% else %}
-											<small>(Modifié
-												{{comment.updatedAt|ago}})</small>
-										{% endif %}
-
-									</p>
-									<p>{{comment.content|nl2br}}</p>
-
-
-								</div>
-							{% endif %}
-							<hr>
-						{% endfor %}
+						<i class="fa-regular fa-thumbs-up"></i>
+						{# Pouce non liké #}
 					{% endif %}
-				{% endif %}
-
+					<span id="total-likes-container">{{vehicle.Likes|length}}</span>
+					<span>J'aime</span>
+				</a>
 			</div>
+			<div class="mx-5">
+				<div class="text-danger">{{ form_errors(form.content) }}</div>
+				{{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Laissez un Commentaire...', "rows" : 5}}) }}
+			</div>
+			<div class=" mx-5 my-2">
+				<input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
+			</div>
+			{{ form_end(form) }}
 		</div>
-	</main>
-{% endblock %}
 
+		<div class="my-3 mx-5">
+			{% if vehicle.comments is not empty %}
+				{% for comment in vehicle.comments|reverse %}
+					{% if comment.isActivated %}
+						<div class="my-3 p-2 mx-5 border shadow">
+							<p>
+								<strong>{{comment.user.firstName}}
+									{{comment.user.lastName}}</strong>
+								{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
+								<small>(Publié
+									{{comment.createdAt|ago}})</small>
+							</p>
+							<p>{{comment.content|nl2br}}</p>
+							<small>(Modifié
+								{{comment.updatedAt|ago}})</small>
+						</div>
+					{% endif %}
+					<hr>
+				{% endfor %}
+			{% else %}
+				<div class="my-3 mx-5 border shadow">
+					<p>Aucun commentaire pour l'instant...</p>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+
+{% endblock %}
 {% block javascript %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
@@ -125,7 +109,6 @@ url: this.href,
 type: 'GET',
 success: function (response) {
 $('#total-likes-container').html(response.totalLikes);
-
 if ($('i').hasClass('fa-regular')) {
 $('i').removeClass('fa-regular');
 $('i').addClass('fa-solid');
@@ -133,16 +116,10 @@ $('i').addClass('fa-solid');
 $('i').removeClass('fa-solid');
 $('i').addClass('fa-regular');
 }
-
 },
 error: function (response) {
-if (response.status == 403) {
-alert(response.responseJSON.message);
-} else {
 alert("Une erreur est survenue. Veuillez réessayez plus tard.");
 }
-}
-
 });
 });
 });

@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\ReservationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use DateTimeInterface;
-use phpDocumentor\Reflection\Types\Static_;
+
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation

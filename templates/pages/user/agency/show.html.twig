@@ -11,29 +11,28 @@
 
 
 {% block main %}
-	<main>
-		<div class="container my-5">
-			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="{{path('user.agency.index')}}">Liste Des Agences</a>
-					</li>
-					<li class="breadcrumb-item active" aria-current="page">{{agency.name|u.truncate('50','...')}}</li>
-				</ol>
-			</nav>
 
-			<div class="text-center my-3">
-				<h1 class=" my-3 display-5">{{agency.name}}</h1>
-			</div>
-			<div class="text-center">
+	<div class="container mt-5">
+		<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.agency.index')}}">Liste Des Agences</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">{{agency.name|u.truncate('50','...')}}</li>
+			</ol>
+		</nav>
+
+		<div class="text-center">
+			<h1 class=" my-3 display-5">{{agency.name}}</h1>
+
+			<div>
 				{% if agency.image %}
 					<img src="{{ vich_uploader_asset(agency, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ agency.name }}">
 				{% else %}
 					<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{agency.name}}">
 				{% endif %}
 			</div>
-
-			<article class="my-3 text-center">
+			<div class="mt-3">
 				<p>Description :
 					{{agency.description|raw}}</p>
 
@@ -49,99 +48,94 @@
 				<p>Numero de Téléphone :
 					{{agency.phone}}
 				</p>
-			</article>
-
-
-			<div class="mb-5 mx-5" id="create-comment-box">
-				{{ form_start(form,{'action': path('user.agency.show', {'id': agency.id})~"#create-comment-box"})}}
-				<div class="my-3 mx-5">
-					<a id="like-link" href="{{path('user.agency.like',{'id':agency.id})}}">
-						{% if app.user and agency.isLikedBy(app.user) %}
-							<i class="fa-solid fa-thumbs-up"></i>
-							{# Pouce Liké #}
-						{% else %}
-							<i class="fa-regular fa-thumbs-up"></i>
-							{# Pouce non liké #}
-						{% endif %}
-						<span id="total-likes-container">{{agency.Likes|length}}</span>
-						<span>J'aime</span>
-					</a>
-				</div>
-				<div class="mx-5">
-					<div class="text-danger">{{ form_errors(form.content) }}</div>
-					{{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Laissez un Commentaire...', "rows" : 5}}) }}
-				</div>
-				<div class=" mx-5 my-2">
-					<input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
-				</div>
-				{{ form_end(form) }}
-			</div>
-
-			<div class="my-3 mx-5">
-				{% if agency.comments is not empty %}
-					{% for comment in agency.comments|reverse %}
-						{% if comment.isActivated %}
-							<div class="my-3 p-2 mx-5 border shadow">
-								<p>
-									<strong>{{comment.user.firstName}}
-										{{comment.user.lastName}}</strong>
-									{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
-									{% if comment.updatedAt is empty %}
-										<small>(Publié
-											{{comment.createdAt|ago}})</small>
-									{% else %}
-										<small>(Modifié
-											{{comment.updatedAt|ago}})</small>
-									{% endif %}
-								</p>
-
-								<p>{{comment.content|nl2br}}</p>
-							</div>
-						{% endif %}
-						<hr>
-					{% endfor %}
-				{% else %}
-					<div class="my-3 mx-5">
-						<p>Aucun commentaire pour l'instant...</p>
-
-					</div>
-
-				{% endif %}
-
 			</div>
 		</div>
-	</main>
+
+
+		<div class="mb-5 mx-5" id="create-comment-box">
+			{{ form_start(form,{'action': path('user.agency.show', {'id': agency.id})~"#create-comment-box"})}}
+			<div class="my-3 mx-5">
+				<a id="like-link" href="{{path('user.agency.like',{'id':agency.id})}}">
+					{% if app.user and agency.isLikedBy(app.user) %}
+						<i class="fa-solid fa-thumbs-up"></i>
+						{# Pouce Liké #}
+					{% else %}
+						<i class="fa-regular fa-thumbs-up"></i>
+						{# Pouce non liké #}
+					{% endif %}
+					<span id="total-likes-container">{{agency.Likes|length}}</span>
+					<span>J'aime</span>
+				</a>
+			</div>
+			<div class="mx-5">
+				<div class="text-danger">{{ form_errors(form.content) }}</div>
+				{{ form_widget(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Laissez un Commentaire...', "rows" : 5}}) }}
+			</div>
+			<div class=" mx-5 my-2">
+				<input formnovalidate type="submit" class="btn btn-primary" value="Commentez">
+			</div>
+			{{ form_end(form) }}
+		</div>
+
+		<div class="my-3 mx-5">
+			{% if agency.comments is not empty %}
+				{% for comment in agency.comments|reverse %}
+					{% if comment.isActivated %}
+						<div class="my-3 p-2 mx-5 border shadow">
+							<p>
+								<strong>{{comment.user.firstName}}
+									{{comment.user.lastName}}</strong>
+								{{"ROLE_SUPER_ADMIN" in comment.user.roles ? '<span class="badge rounded-pill text-bg-success">Admin</span>' : ''}}
+								<small>(Publié
+									{{comment.createdAt|ago}})</small>
+							</p>
+							<p>{{comment.content|nl2br}}</p>
+							<small>(Modifié
+								{{comment.updatedAt|ago}})</small>
+						</div>
+					{% endif %}
+					<hr>
+				{% endfor %}
+			{% else %}
+				<div class="my-3 mx-5 border shadow">
+					<p>Aucun commentaire pour l'instant...</p>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+
 {% endblock %}
 
 {% block javascript %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
-		$(document).ready(function () {
-$('#like-link').on('click', function (event) {
+		// on créer une fonction anonyme
+$(document).ready(function () { // on creer l'evenement qui se produit quand on clique sur le bouton
+$('#like-link').on('click', function (event) { // on empeche la page de se recharger
 event.preventDefault();
-$.ajax({
+// on creer la fonction ajax
+$.ajax({ // on récupère l'url de la page
 url: this.href,
+// on envois les données via la method GET
 type: 'GET',
-success: function (response) {
+// on defini ce qui se passe si c'est un success
+success: function (response) { // on affiche le nombre total de likes
 $('#total-likes-container').html(response.totalLikes);
-
-if ($('i').hasClass('fa-regular')) {
+// si le pouce est non liké
+if ($('i').hasClass('fa-regular')) { // on le retire...
 $('i').removeClass('fa-regular');
+// et on ajoute le pouce liké
 $('i').addClass('fa-solid');
-} else {
+} else { // dans le cas contraire ... on retire le pouce liké
 $('i').removeClass('fa-solid');
+// on affiche le pouce non liké
 $('i').addClass('fa-regular');
 }
-
 },
+// en cas d'erreur on affiche une alert avec un message
 error: function (response) {
-if (response.status == 403) {
-alert(response.responseJSON.message);
-} else {
 alert("Une erreur est survenue. Veuillez réessayez plus tard.");
 }
-}
-
 });
 });
 });

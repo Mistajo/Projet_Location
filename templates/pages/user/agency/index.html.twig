@@ -11,13 +11,14 @@
 
 {% block main %}
 	<h1 class="text-center my-3 display-5">Nos Agences</h1>
-	<div class="container mt-5">
+	<div class="container mt-5 d-flex justify-content-center">
 		<div class="row">
 			{% for agency in agencies %}
-				<div class="col-md-6 mb-4">
-
-					<div class="card mb-3 border shadow w-75 h-100 mx-5 my-2">
-						<img src="{{ vich_uploader_asset(agency, 'imageFile') }}" class="card-img-top img-fluid" alt="{{ agency.name }}">
+				<div class="col-md-6 mb-4 d-flex justify-content-center">
+					<div class="card mb-3 border shadow w-75 h-100">
+						<a href="{{path('user.agency.show', {'id' : agency.id})}}">
+							<img src="{{ vich_uploader_asset(agency, 'imageFile') }}" class="card-img-top img-fluid" alt="{{ agency.name }}">
+						</a>
 						<div class="card-body">
 							<h5 class="card-title">Nom de l'agence :
 								{{ agency.name }}</h5>
@@ -49,4 +50,4 @@
 		</div>
 	</div>
 
-</div>{% endblock %}
+{% endblock %}

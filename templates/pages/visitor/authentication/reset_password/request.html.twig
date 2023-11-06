@@ -10,7 +10,9 @@
 
 
 {% block main %}
-	<main class="container-fluid">
+	<main
+		class="container-fluid">
+		{# on affiche les messages d'erreur de réinitialisation de mot de passe #}
 		{% for flash_error in app.flashes('reset_password_error') %}
 			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 		{% endfor %}
@@ -19,7 +21,9 @@
 
 		<div class="container mt-5">
 			<div class="row">
-				<div class="col-md-6 mx-auto">
+				<div
+					class="col-md-6 mx-auto">
+					{# on creer le formulaire #}
 					{{ form_start(requestForm) }}
 					<div class="mb-3">
 						<label for="reset_password_request_form_email">Email</label>

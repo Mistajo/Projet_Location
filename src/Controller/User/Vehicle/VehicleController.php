@@ -90,12 +90,6 @@ class VehicleController extends AbstractController
         //Récuperons l'utilisateur censé etre connecté
         $user = $this->getUser();
         $agency = $vehicle->getAgency();
-        //S'il n'est pas connecté
-        if (!$user) {
-            //Retournons la réponse au navigateur du client, lui expliquant que l'utilisateur n'est pas connecté
-            return $this->json(['message' => "Vous devez être connecté avant d'aimer cet article"], 403);
-        }
-        //Dans le cas contraire
 
         //Vérifions, Si l'article a déja été aimé par l'utilisateur connecté,
         if ($vehicle->isLikedBy($user)) {

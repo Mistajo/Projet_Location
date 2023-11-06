@@ -105,7 +105,7 @@ class AgencyController extends AbstractController
             // on envois la requete
             $em->flush();
             // on affiche un message de succès
-            $this->addFlash("success", "L'agence"  . $agency->getname() . "a bien été supprimée.");
+            $this->addFlash("success", "L'agence"  . " " .  $agency->getname() . " " . "a bien été supprimée.");
             // on redirige vers la page d'accueil des agences
             return $this->redirectToRoute("admin.agency.index");
         }

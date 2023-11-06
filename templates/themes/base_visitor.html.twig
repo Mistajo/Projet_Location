@@ -15,8 +15,7 @@
 		</title>
 
 		{% block description %}
-			<meta name="description" content="
-																				La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+			<meta name="description" content="La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
 		{% endblock %}
 
 		{% block Favicon %}
@@ -39,6 +38,7 @@
 
 		{% block Boostrap %}
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+			<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 		{% endblock %}
 
@@ -51,9 +51,7 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 
-		{% block jQuery %}
-			<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-		{% endblock %}
+		{% block jQuery %}{% endblock %}
 
 
 		{% block AOS %}
@@ -61,7 +59,7 @@
 		{% endblock %}
 
 	</head>
-	<body>
+	<body class="rl-body">
 		{% include "layouts/navbar/navbar_visitor.html.twig" %}
 		<main>
 			{% block main %}{% endblock %}

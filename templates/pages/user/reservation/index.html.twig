@@ -12,64 +12,63 @@
 
 
 {% block main %}
-	<main>
 
-		<h1 class="text-center my-3 display-5">Mes Reservations :
-			{{app.user.firstName}}
-			{{app.user.lastName}}</h1>
 
-		<div class="container my-5">
+	<h1 class="text-center my-3 display-5">Mes Reservations :
+		{{app.user.firstName}}
+		{{app.user.lastName}}</h1>
 
-			{% if reservations is empty %}
-				<p class="text-center mt-5">Aucune Reservation pour l'instant</p>
-			{% else %}
-				<div class="my-2 d-flex flex-column justify-content-center align-items-center">
-					{% for reservation in reservations %}
-						<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 h-100 card mb-3" style="max-width: 740px;">
-							<div class="row g-0">
-								<div class="col-md-4">
-									<img src="{{ vich_uploader_asset(reservation.vehicle, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ reservation.vehicle.name }}">
-								</div>
-								<div class="col-md-8">
-									<div class="card-body">
-										<h5 class="card-title">
-											<strong>
-												Numéro de Réservation :
-											</strong>
-											{{reservation.Id |u.truncate(70, '...')|raw}}</h5>
-										<p class="card-text">
-											<strong>Nom de l'Agence :</strong>
-											{{reservation.agency.name |u.truncate(70, '...')|raw}}
-										</p>
-										<p class="card-text">
-											<strong>Nom du Vehicule :</strong>
-											{{reservation.vehicle.name |u.truncate(70, '...')|raw}}
-										</p>
-										<p>
-											<a href="{{path('user.reservation.show', {'id': reservation.id})}}" class="btn btn-primary">Détails</a>
-										</p>
-										<p class="card-text">
-											<small class="text-body-secondary">Validé
-												{{reservation.createdAt|ago}}</small>
-										</p>
-									</div>
+	<div class="container my-5">
+
+		{% if reservations is empty %}
+			<p class="text-center mt-5">Aucune Reservation pour l'instant</p>
+		{% else %}
+			<div class="my-2 d-flex flex-column justify-content-center align-items-center">
+				{% for reservation in reservations %}
+					<div data-aos="fade-up" data-aos-duration="1500" class="shadow w-100 h-100 card mb-3" style="max-width: 740px;">
+						<div class="row g-0">
+							<div class="col-md-4">
+								<img src="{{ vich_uploader_asset(reservation.vehicle, 'imageFile')}}" class="w-100 h-100 rounded" alt="{{ reservation.vehicle.name }}">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title">
+										<strong>
+											Numéro de Réservation :
+										</strong>
+										{{reservation.Id |u.truncate(70, '...')|raw}}</h5>
+									<p class="card-text">
+										<strong>Nom de l'Agence :</strong>
+										{{reservation.agency.name |u.truncate(70, '...')|raw}}
+									</p>
+									<p class="card-text">
+										<strong>Nom du Vehicule :</strong>
+										{{reservation.vehicle.name |u.truncate(70, '...')|raw}}
+									</p>
+									<p>
+										<a href="{{path('user.reservation.show', {'id': reservation.id})}}" class="btn btn-primary">Détails</a>
+									</p>
+									<p class="card-text">
+										<small class="text-body-secondary">Validé
+											{{reservation.createdAt|ago}}</small>
+									</p>
 								</div>
 							</div>
 						</div>
-						<hr>
-					{% endfor %}
-
-					{# display navigation #}
-					<div class="mt-2">
-						{{ knp_pagination_render(reservations) }}
 					</div>
+					<hr>
+				{% endfor %}
+
+				{# display navigation #}
+				<div class="mt-2">
+					{{ knp_pagination_render(reservations) }}
 				</div>
+			</div>
 
-			{% endif %}
+		{% endif %}
 
 
-		</div>
-	</main>
+	</div>
 
 
 {% endblock %}

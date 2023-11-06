@@ -17,17 +17,28 @@
 {% endblock %}
 
 {% block main %}
+	{# titre de la section #}
 	<h1 class="text-center my-3 display-5">Nouvelle Agence</h1>
 
 	<div class="container mt-5">
-		<div class="col-md-6 mx-auto">
+		<div
+			class="col-md-6 mx-auto">
+			{# on creer le formulaire #}
 			{{ form_start(form) }}
 			<div class="mb-3">
 				<label for="create_agency_form_name">Nom :
 				</label>
+				{# on affiche les messages d'erreur avec form errors#}
 				<div class="text-danger">{{ form_errors(form.name) }}</div>
-
 				{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="mb-3">
+				<label for="create_agency_form_phone">Numero de Téléphone :
+				</label>
+				{# on affiche les messages d'erreur avec form errors#}
+				<div class="text-danger">{{ form_errors(form.phone) }}</div>
+				{# on mets en form l'input #}
+				{{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
 			</div>
 			<div class="mb-3">
 				<label for="create_agency_form_address">Adresse :

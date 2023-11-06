@@ -42,8 +42,6 @@
 					<th>Immatriculation</th>
 					<th>Créer Le:
 					</th>
-					<th>Modifier Le:
-					</th>
 					<th>Options</th>
 				</tr>
 			</thead>
@@ -72,7 +70,6 @@
 							{% endif %}
 						</td>
 						<td>{{like.createdAt | date('d-m-Y H:i:s')}}</td>
-						<td>{{like.updatedAt | date('d-m-Y H:i:s')}}</td>
 						<td>
 							<a onclick="event.preventDefault(); confirm('Confirmer vous la suppression de ce like ?') && document.querySelector('#delete-like-form-'+{{like.id}}).submit();" href="#" title="Supprimer" class="text-danger">
 								<i class="fa-solid fa-trash-can"></i>

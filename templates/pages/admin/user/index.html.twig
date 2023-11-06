@@ -92,7 +92,7 @@
 										<i class="fa-solid fa-user-pen"></i>
 									</a>
 								{% endif %}
-								<a onclick="event.preventDefault(); confirm('Confirmez-vous la supression du compte ?') && document.querySelector('#delete-user-{{user.id}}').submit();" class="text-danger m-2" title="Supprimer l'utilisateur" href="#">
+								<a onclick="event.preventDefault(); confirm('Confirmez-vous la supression de cet utilisateur ?') && document.querySelector('#delete-user-{{user.id}}').submit();" class="text-danger m-2" title="Supprimer l'utilisateur" href="#">
 									<i class="fa-solid fa-user-minus"></i>
 								</a>
 								<form action="{{path('admin.user.delete', {'id':user.id})}}" method="POST" id="delete-user-{{user.id}}">

@@ -24,7 +24,7 @@ class Contact
     #[Assert\Regex(
         pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
         match: true,
-        message: 'Le prénom doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.',
+        message: 'Le prénom doit contenir uniquement des lettres, des chiffres, le tiret du milieu et l\'undescore.',
     )]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
@@ -37,7 +37,7 @@ class Contact
     #[Assert\Regex(
         pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
         match: true,
-        message: 'Le nom doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.',
+        message: 'Le nom doit contenir uniquement des lettres, des chiffres, le tiret du milieu et l\'undescore.',
     )]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;

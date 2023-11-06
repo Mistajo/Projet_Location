@@ -21,6 +21,13 @@
 				{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 			</div>
 			<div class="mb-3">
+				<label for="create_agency_form_phone">Numero de Téléphone :
+				</label>
+				{# on affiche les messages d'erreur avec form errors#}
+				<div class="text-danger">{{ form_errors(form.phone) }}</div>
+				{{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="mb-3">
 				<label for="edit_agency_form_address">Adresse :
 				</label>
 				<div class="text-danger">{{ form_errors(form.address) }}</div>

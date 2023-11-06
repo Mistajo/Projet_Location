@@ -16,70 +16,70 @@
 
 
 {% block main %}
+	<div class="container mt-3">
+		<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.vehicle.index')}}">Vehicules</a>
+				</li>
+				<li class="breadcrumb-item">{{vehicle.name|u.truncate('50','...')}}</li>
+				<li class="breadcrumb-item active" aria-current="page">Réservation
+					{{vehicle.name|u.truncate('50','...')}}</li>
+			</ol>
+		</nav>
 
-	<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="{{path('user.vehicle.index')}}">Vehicules</a>
-			</li>
-			<li class="breadcrumb-item">{{vehicle.name|u.truncate('50','...')}}</li>
-			<li class="breadcrumb-item active" aria-current="page">Réservation
-				{{vehicle.name|u.truncate('50','...')}}</li>
+		<h1 class="text-center my-3 display-5">Réservation :
+			{{vehicle.name}}
+		</h1>
 
-		</ol>
-	</nav>
+		{% for message in app.flashes('error') %}
+			<div class="alert text-center alert-danger alert-dismissible fade show" role="alert">
+				{{message}}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
 
-	<h1 class="text-center my-3 display-5">Réservation :
-		{{vehicle.name}}
-	</h1>
 
-	{% for message in app.flashes('error') %}
-		<div class="alert text-center alert-danger alert-dismissible fade show" role="alert">
-			{{message}}
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		<div class="text-center">
+			{% if vehicle.image %}
+				<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
+			{% else %}
+				<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
+			{% endif %}
 		</div>
-	{% endfor %}
 
-
-	<div class="text-center">
-		{% if vehicle.image %}
-			<img src="{{ vich_uploader_asset(vehicle, 'imageFile')}}" class="w-50 h-50 rounded" alt="{{ vehicle.name }}">
-		{% else %}
-			<img src="{{asset('images/vehicles/no_image.jpg')}}" class="w-50 h-50 rounded" alt="{{vehicle.name}}">
-		{% endif %}
-	</div>
-
-	<div class="container mt-3 d-flex justify-content-center">
-		{{form_start(form)}}
-		<div class="row">
-			<div class="col-6">
-				<div class="mb-3">
-					<label for="form_startDate">Date de Debut</label>
-					<div class="text-danger">{{ form_errors(form.startDate) }}</div>
-					{{ form_widget(form.startDate) }}
+		<div class="container mt-3 d-flex justify-content-center">
+			{{form_start(form)}}
+			<div class="row">
+				<div class="col-6">
+					<div class="mb-3">
+						<label for="form_startDate">Date de Debut</label>
+						<div class="text-danger">{{ form_errors(form.startDate) }}</div>
+						{{ form_widget(form.startDate) }}
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="mb-3">
+						<label for="form_endDate">Date de Fin</label>
+						<div class="text-danger">{{ form_errors(form.endDate) }}</div>
+						{{ form_widget(form.endDate) }}
+					</div>
 				</div>
 			</div>
-			<div class="col-6">
-				<div class="mb-3">
-					<label for="form_endDate">Date de Fin</label>
-					<div class="text-danger">{{ form_errors(form.endDate) }}</div>
-					{{ form_widget(form.endDate) }}
-				</div>
+			<div class="mb-3 w-50">
+				<label for="form_endDate">Prix à la journée</label>
+				<div class="text-danger">{{ form_errors(form.dailyPrice) }}</div>
+				{{ form_widget(form.dailyPrice, {'attr' : {'class': 'form-control', 'id': 'totalPrice' ,'readonly': 'readonly', "value" : vehicle.dailyprice}}) }}
 			</div>
-		</div>
-		<div class="mb-3 w-50">
-			<label for="form_endDate">Prix à la journée</label>
-			<div class="text-danger">{{ form_errors(form.dailyPrice) }}</div>
-			{{ form_widget(form.dailyPrice, {'attr' : {'class': 'form-control', 'id': 'totalPrice' ,'readonly': 'readonly', "value" : vehicle.dailyprice}}) }}
-		</div>
 
-		<div class="mb-3 d-flex justify-content-center">
-			<input value="Valider" formnovalidate type="submit" class="btn btn-primary w-50 shadow">
+			<div class="mb-3 d-flex justify-content-center">
+				<input value="Valider" formnovalidate type="submit" class="btn btn-primary w-50 shadow">
+			</div>
+			{{ form_end(form) }}
 		</div>
-		{{ form_end(form) }}
+		<p class="text-danger d-flex justify-content-center">info :Nous Appliquons un taux de tva de 20%
+		</p>
 	</div>
-	<p class="text-danger d-flex justify-content-center">info :Nous Appliquons un taux de tva de 20%
-	</p>
 {% endblock %}
 
 {% block javascript %}{% endblock %}

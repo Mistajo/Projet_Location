@@ -19,18 +19,20 @@
 
 		<div class="container my-5 mt-5">
 			<div class="row">
-				<div class="col-md-6 mt-5">
-
+				<div
+					class="col-md-6 mt-5">
+					{# on affiche les message de type success #}
 					{% for message in app.flashes('success') %}
 						<div class="alert alert-success alert-dismissible fade show" role="alert">
 							{{message}}
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 					{% endfor %}
-
+					{# on creer le formulaire de contact #}
 					{{form_start(form)}}
-					<div class="row">
-
+					<div
+						class="row">
+						{# on mets en forme le prénom #}
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="contact_form_firstName">Prénom</label>
@@ -38,7 +40,7 @@
 								{{form_widget(form.firstName, {'attr': {'class':'form-control'}})}}
 							</div>
 						</div>
-
+						{# on mets en forme le nom #}
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="contact_form_lastName">Nom</label>
@@ -46,11 +48,11 @@
 								{{form_widget(form.lastName, {'attr': {'class':'form-control'}})}}
 							</div>
 						</div>
-
 					</div>
 
-					<div class="row">
-
+					<div
+						class="row">
+						{#  #}
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="contact_form_email">Email</label>

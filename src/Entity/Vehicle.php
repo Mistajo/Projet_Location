@@ -87,7 +87,7 @@ class Vehicle
     #[Assert\Regex(
         pattern: "/^[0-9]+$/i",
         match: true,
-        message: 'Le modele doit contenir uniquement des chiffres.',
+        message: 'Le prix doit contenir uniquement des chiffres.',
     )]
     #[ORM\Column]
     private ?float $dailyPrice = null;

@@ -30,7 +30,7 @@ class ReservationFormType extends AbstractType
                 'widget' => 'choice',
                 'placeholder' => [
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                    'hour' => 'Hour', 'minute' => 'Minute',
+
                 ],
 
             ])

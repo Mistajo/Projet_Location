@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VehicleController extends AbstractController
@@ -26,24 +25,40 @@ class VehicleController extends AbstractController
         ]);
     }
 
+    // La route pour creer un nouveau vehicule
     #[Route('/admin/vehicle/create', name: 'admin.vehicle.create', methods: ['GET', 'POST'])]
+    // on creer la fonction create qui va etre appele par la route
     public function create(Request $request, EntityManagerInterface $em, AgencyRepository $agencyRepository): Response
     {
+        // si y'a pas d'agence existante
         if (count($agencyRepository->findAll()) == 0) {
+            // on affiche un message flash 
             $this->addFlash('warning', 'Vous devez d\'abord créer des agences');
+            // on redirige vers la page index des agences.
             return $this->redirectToRoute('admin.agency.index');
         }
+        // dans le cas contraire on creer un nouveau vehicule
         $vehicle = new Vehicle();
+        // on creer le formulaire en se basant sur le type de formulaire
         $form = $this->createForm(VehicleFormType::class, $vehicle);
+        // on prepare la demande
         $form->handleRequest($request);
+        // si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            // on récupère l'utilisateur connecté
             $vehicle->addUser($this->getUser());
+            // l'entity manager prépare la requette
             $em->persist($vehicle);
+            // et l'enregistre dans la base de données
             $em->flush();
-            $this->addFlash("success", "Le vehicle a bien été créé.");
+            // on affiche un message flash
+            $this->addFlash("success", "Le vehicle" . " " . $vehicle->getName() . " " . "a bien été créé.");
+            // on redirige vers la page index des vehicules
             return $this->redirectToRoute("admin.vehicle.index");
         }
+        // dans le cas contraire on affiche la page de création du vehicule
         return $this->render("pages/admin/vehicle/create.html.twig", [
+            // on affiche le formulaire à la vue
             "form" => $form->createView()
         ]);
     }
@@ -60,14 +75,14 @@ class VehicleController extends AbstractController
                 // Rendons nulle la date de publication
                 $vehicle->setAvailableAt(null);
                 // Générons le message flash
-                $this->addFlash("success", "Le vehicule est désormais indisponible.");
+                $this->addFlash("success", "Le vehicule" . " " . $vehicle->getName() . " " .  "est désormais indisponible.");
             } else {
                 // Rendons-le disponible dans la liste des vehicules
                 $vehicle->setIsAvailable(true);
                 // Générons la date de publication
                 $vehicle->setAvailableAt(new DateTimeImmutable('now'));
                 // Générons le message flash
-                $this->addFlash("success", "Le vehicule est désormais disponible.");
+                $this->addFlash("success", "Le vehicule" . " " . $vehicle->getName() . " " . "est désormais disponible.");
             }
             //Demandons à l'entity manager de préparer la requette
             $em->persist($vehicle);
@@ -105,7 +120,7 @@ class VehicleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash("success", "Le vehicule a bien été modifié.");
+            $this->addFlash("success", "Le vehicule" . " " . $vehicle->getName() . " " . "a bien été modifié.");
             return $this->redirectToRoute("admin.vehicle.index");
         }
 

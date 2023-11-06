@@ -10,88 +10,79 @@
 
 
 {% block main %}
-	<main>
 
-		<div class="container mt-3">
+	<h1 class="text-center my-3 display-5">Nos Vehicules</h1>
 
-			<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="{{path('user.vehicle.index')}}">Vehicules</a>
-					</li>
+	<div class="container mt-5">
+		{% for message in app.flashes('success') %}
+			<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
+				{{message}}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
 
-				</ol>
-			</nav>
+		<div class="text-center">
+			<div class="dropdown-center text-center my-5">
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					-- Selectioner une Agence --
+				</button>
+				<ul class="dropdown-menu">
+					{% if agencies is empty %}
+						<li>
+							<a class="dropdown-item" href="#">Aucune Agence</a>
+						</li>
+					{% else %}
+						<a href="{{path('user.vehicle.index')}}" class="dropdown-item">Tout les Vehicules</a>
+						{% for agency in agencies %}
+							{% if agency.getAvailableVehicles is not empty %}
+								<li>
+									<a class="dropdown-item" href="{{path('user.vehicles.filter_by_agency',{'id': agency.id})}}">{{agency.name}}
+										({{agency.getAvailableVehicles|length}})</a>
+								</li>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</ul>
+			</div>
 
+			{% if vehicles is empty %}
+				<p class="text-center mt-5">Aucun vehicule pour l'instant</p>
+			{% else %}
+				<div class="my-2 d-flex flex-column justify-content-center align-items-center">
+					<div class="container mt-5">
+						<div class="row">
+							{% for vehicle in vehicles %}
 
-			<h1 class="text-center my-3 display-5">Nos Vehicules</h1>
-
-			{% for message in app.flashes('success') %}
-				<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
-					{{message}}
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			{% endfor %}
-
-			<div class="row text-center">
-				<div class="dropdown-center text-center my-5">
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						-- Selectioner une Agence --
-					</button>
-					<ul class="dropdown-menu">
-						{% if agencies is empty %}
-							<li>
-								<a class="dropdown-item" href="#">Aucune Agence</a>
-							</li>
-						{% else %}
-							{% for agency in agencies %}
-								{% if agency.getAvailableVehicles is not empty %}
-									<li>
-										<a class="dropdown-item" href="{{path('user.vehicles.filter_by_agency',{'id': agency.id})}}">{{agency.name}}
-											({{agency.getAvailableVehicles|length}})</a>
-									</li>
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-					</ul>
-				</div>
-
-				{% if vehicles is empty %}
-					<p class="text-center mt-5">Aucun vehicule pour l'instant</p>
-				{% else %}
-					<div class="my-2 d-flex flex-column justify-content-center align-items-center">
-						<div class="container mt-5">
-							<div class="row">
-								{% for vehicle in vehicles %}
-
-									<div class="col-md-4 mb-4">
-										<div class="card mx-3 border shadow h-100">
+								<div class="col-md-4 mb-4">
+									<div class="card mx-3 border shadow h-100">
+										<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}">
 											<img src="{{ vich_uploader_asset(vehicle, 'imageFile') }}" class="card-img-top img-fluide" alt="Image du vehicule">
-											<div class="card-body">
-												<h5 class="card-title">{{ vehicle.name }}</h5>
-												<p class="card-text">Prix Journalier :
-													{{ vehicle.dailyPrice }}
-													€</p>
-												<p class="card-text">{{ vehicle.description|striptags|u.truncate(70, '...')|raw }}</p>
-												<p class="d-flex justify-content-between">
-													<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}" class="btn btn-primary">Details</a>
-													<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-secondary">Reserver</a>
-												</p>
-											</div>
+										</a>
+										<div class="card-body">
+											<h5 class="card-title">{{ vehicle.name }}</h5>
+											<p class="card-text">Prix Journalier :
+												{{ vehicle.dailyPrice }}
+												€</p>
+											<p class="card-text">{{ vehicle.description|striptags|u.truncate(70, '...')|raw }}</p>
+											<p class="d-flex justify-content-between">
+												<a href="{{path('user.vehicle.show', {'id' : vehicle.id})}}" class="btn btn-primary">Details</a>
+												<a href="{{path('user.vehicle.reservation.index', {'id' : vehicle.id})}}" class="btn btn-secondary">Reserver</a>
+											</p>
 										</div>
 									</div>
-								{% endfor %}
-							</div>
-						</div>
-
-						{# display navigation #}
-						<div class="mt-2">
-							{{ knp_pagination_render(vehicles) }}
+								</div>
+							{% endfor %}
 						</div>
 					</div>
-				{% endif %}
 
-			</div>
+					{# display navigation #}
+					<div class="mt-2">
+						{{ knp_pagination_render(vehicles) }}
+					</div>
+				</div>
+			{% endif %}
+
 		</div>
-	</main>
+	</div>
+
 {% endblock %}

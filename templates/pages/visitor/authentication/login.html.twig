@@ -16,50 +16,52 @@
 			<meta name="description" content="Bienvenue sur notre page de connexion. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
 		{% endblock %}
 
+		{% block Favicon %}
+			{# Favicon #}
+			<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+			<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
+			<link rel="icon" type="image/png" sizes="16x16" href="{{asset('/favicon-16x16.png')}}">
+			<link rel="manifest" href="/site.webmanifest">
+			<meta name="msapplication-TileColor" content="#ffffff">
+			<meta name="theme-color" content="#ffffff">
+		{% endblock %}
 
-		{# Favicon #}
-		<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
-		<link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
-		<link rel="icon" type="image/png" sizes="16x16" href="{{asset('/favicon-16x16.png')}}">
-		<link rel="manifest" href="/site.webmanifest">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta
-		name="theme-color" content="#ffffff">
+		{% block font_family %}
+			{# Font family #}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
+		{% endblock %}
 
-		{# Font family #}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&display=swap" rel="stylesheet">
-
-
+		{# stylesheets webpack encore #}
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
+		{# javascript webpack encore #}
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
 	<body class="h-100">
-
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-lg-6 d-flex justify-content-center align-items-center">
 					<img src="{{asset('images/visitor/authentication/Connectez-vous-pour-louer-des-vehicules.png')}}" class="img-fluid" alt="Connectez vous pour louer des vehicules">
-
 				</div>
 				<div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
-					<form method="POST" class="w-100">
+					<form
+						method="POST" class="w-100">
+						{# on affiche les messages d'erreur #}
 						{% if error %}
 							<div class="text-center alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 						{% endif %}
-
+						{# on affiche les messages flash success #}
 						{% for message in app.flashes('success') %}
 							<div class="alert alert-success text-center" role="alert">
 								{{message}}
 							</div>
 						{% endfor %}
-
+						{# on creer le formulaire de connexion #}
 						<div class="mb-3">
 							<label for="authentication_form_email">Email</label>
 							<input type="email" value="{{ last_username }}" name="email" id="authentication_form_email" class="form-control" autocomplete="email" required autofocus>
@@ -84,10 +86,11 @@
 							<input formnovalidate type="submit" class="btn btn-primary w-100 shadow" value="Je me connecte">
 						</div>
 					</form>
-
+					{# on creer le lien vers la page d'inscription #}
 					<p class="my-1">Vous n'êtes pas encore inscrit ?
 						<a href="{{path('visitor.registration.register')}}">Inscrivez-vous</a>
 					</p>
+					{# on creer le lien vars la page d'inscription #}
 					<p class="my-1">
 						<a href="{{path('visitor.welcome.index')}}">Retour à l'accueil</a>
 					</p>

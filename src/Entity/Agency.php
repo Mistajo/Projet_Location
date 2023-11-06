@@ -31,7 +31,7 @@ class Agency
     #[Assert\Regex(
         pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
         match: true,
-        message: 'Le nom doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.',
+        message: 'Le nom doit contenir uniquement des lettres, des chiffres le tiret du milieu et l\'undescore.',
     )]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
@@ -44,7 +44,7 @@ class Agency
     #[Assert\Regex(
         pattern: "/^[0-9a-zA-Z-_' áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i",
         match: true,
-        message: "L'adresse doit contenir uniquement des lettres, des chiffres le tiret du milieu de l\'undescore.",
+        message: "L'adresse doit contenir uniquement des lettres, des chiffres, le tiret du milieu et l\'undescore.",
     )]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
@@ -110,6 +110,16 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'agency', targetEntity: Reservation::class, orphanRemoval: true)]
     private Collection $reservations;
 
+    #[Assert\NotBlank(message: "Le numero de téléphone est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Le numero de téléphone ne doit pas dépasser {{ limit }} caractères.",
+    )]
+    #[Assert\Regex(
+        pattern: "/^[0-9\-\+\s\(\)]{6,30}$/",
+        match: true,
+        message: "Le numero de téléphone doit contenir uniquement des chiffres.",
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
