@@ -1,8 +1,13 @@
+{% set currentYear = "now"|date("Y") %}
+{% set startYear = 2023 %}
+{% set copyrightYears = startYear ~ (currentYear != startYear ? (' - ' ~ currentYear) : '') %}
+
+
 <footer class="bg-dark text-center text-white">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
-				<p class="fs-5">Ride Location</p>
+				<p class="fs-5">Accueil</p>
 				<hr>
 				<p class="cursor-pointer">
 					<a href="{{path('visitor.welcome.index')}}#about-us" class="text-decoration-none text-white">A Propos</a>
@@ -34,7 +39,7 @@
 
 			</div>
 			<div class="col-md-4">
-				<p class="fs-5">Accueil</p>
+				<p class="fs-5">Ride Location</p>
 				<hr>
 				{# les conditions générales d'utilisation #}
 				<p class="cursor-pointer">
@@ -178,7 +183,9 @@
 
 	<!-- Copyright -->
 	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-		© 2023 Copyright:
+		&copy;
+		{{ copyrightYears }}
+		Copyright :
 		<a class="text-white" href="https://joan-ngam-developpeur-web.fr/">Joan NGAM</a>
 	</div>
 	<!-- Copyright -->

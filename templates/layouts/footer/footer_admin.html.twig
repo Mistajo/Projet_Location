@@ -1,7 +1,11 @@
+{% set currentYear = "now"|date("Y") %}
+{% set startYear = 2023 %}
+{% set copyrightYears = startYear ~ (currentYear != startYear ? (' - ' ~ currentYear) : '') %}
+
 <footer class="text-center text-white bg-black">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<p class="fs-5">Espace Admin</p>
 				<hr>
 				<p class="cursor-pointer">
@@ -18,26 +22,10 @@
 				<p class="cursor-pointer">
 					<a href="{{path('admin.profile.index')}}" class="text-decoration-none text-white">Mon Profil</a>
 
+				</p>
+			</div>
 
-				</p>
-			</div>
-			<div class="col-md-3">
-				<p class="fs-5">Ride Location</p>
-				<hr>
-				<p class="cursor-pointer">
-					<a href="{{path('visitor.welcome.index')}}#about-us" class="text-decoration-none text-white">A Propos</a>
-				</p>
-				<p class="cursor-pointer">
-					<a href="{{path('visitor.welcome.index')}}#agency" class="text-decoration-none text-white">Nos Agences</a>
-				</p>
-				<p class="cursor-pointer">
-					<a href="{{path('visitor.welcome.index')}}#vehicle" class="text-decoration-none text-white">Nos Vehicules récents</a>
-				</p>
-				<p class="cursor-pointer">
-					<a href="{{path('visitor.contact.create')}}" class="text-decoration-none text-white">Contactez-nous</a>
-				</p>
-			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<p class="fs-5">Nos Réseaux</p>
 				<hr>
 				<p
@@ -53,8 +41,8 @@
 				</p>
 
 			</div>
-			<div class="col-md-3">
-				<p class="fs-5">Accueil</p>
+			<div class="col-md-4">
+				<p class="fs-5">Ride Location</p>
 				<hr>
 				{# les conditions générales d'utilisation #}
 				<p class="cursor-pointer">
@@ -198,7 +186,9 @@
 
 	<!-- Copyright -->
 	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-		© 2023 Copyright:
+		&copy;
+		{{ copyrightYears }}
+		Copyright :
 		<a class="text-white" href="https://joan-ngam-developpeur-web.fr/">Joan NGAM</a>
 
 	</div>
