@@ -132,7 +132,7 @@ class AgencyController extends AbstractController
         // dans le cas contraire
         // on récupère la valeur de l'id de l'agence
         $ids = $request->request->get('ids');
-        // on les transforme en tableau de chaine de caractère
+        // on les transforme en tableau
         $ids = explode(",", $ids);
         // pour chaque id trouvé
         foreach ($ids as $id) {

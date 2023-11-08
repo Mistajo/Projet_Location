@@ -168,63 +168,73 @@ language: {
 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json'
 }
 });
-
-$('#check-all-agencies').on('click', function () {
-if ($(this).is(':checked', true)) {
+// quand on clique sur tout cocher
+$('#check-all-agencies').on('click', function () { // Si le checkbox de tout cocher est coché
+if ($(this).is(':checked', true)) { // alors on coche tout les checkbox de toutes les agences
 $('.check-agency').prop('checked', true);
-} else {
+} else { // sinon on décoche tout les checkbox de toutes les agences
 $('.check-agency').prop('checked', false);
 }
 });
-
-$('.check-agency').on('click', function () {
-if ($('.check-agency:checked').length == $('.check-agency').length) {
+// Quand on clique le checkbox des agences
+$('.check-agency').on('click', function () { // si toutes les checkbox sont cochés
+if ($('.check-agency:checked').length == $('.check-agency').length) { // alors on coche le checkbox de tout cocher
 $('#check-all-agencies').prop('checked', true);
-} else {
+} else { // si non on ne le coche pas
 $('#check-all-agencies').prop('checked', false);
 }
 });
-
-$('#multiple-delete-agencies').on('click', function () {
+// quand on clique sur le bouton tout supprimer
+$('#multiple-delete-agencies').on('click', function () { // on récupère les ids
 let ids = [];
-
-$('.check-agency:checked').each(function () {
+// pour chaque checkbox coché
+$('.check-agency:checked').each(function () { // on récupère l'id
 id = $(this).attr('data-id');
+// on les ajoute au tableau des ids
 ids.push(id);
 });
-
+// on récupère le token
 let token = $(this).attr('data-token');
-
-if (ids.length <= 0) {
-alert('Aucun contact n\'a été sélectionné.');
-} else {
-if (confirm('Confirmer la suppression multiple ?')) {
+// si aucune checkbox n'est coché
+if (ids.length <= 0) { // on affiche un message d'erreur
+alert('Aucune agence n\'a été sélectionné.');
+} else { // dans le cas contraire on demande la confirmation de duppression
+if (confirm('Confirmer la suppression multiple ?')) { // on transforme le tableau en string
 let agenciesIds = ids.join(",");
-
+// on envoie la requête ajax
 $.ajax({
+// on définit l'url
 url: "{{ path('admin.agency.multiple_delete') }}",
+// on definit la methode
 type: "DELETE",
+// on définit le type de données
 dataType: "json",
+// on définit les données qu'on envois
 data: {
 "ids": agenciesIds,
 "csrf_token": token
 },
-success: function (response) {
-if (response.status == true) {
-$('.check-agency:checked').each(function () {
+// on definit le succès de la requete
+success: function (response) { // si la requete a fonctionné
+if (response.status == true) { // pour chaque checkbox cochée
+$('.check-agency:checked').each(function () { // on récupère l'id
 let id = $(this).attr('data-id');
+// On retire la ligne du tableau
 table.row('.tr-agency-' + id).remove().draw();
 });
-
+// on decoche toutes les checkbox
 $('#check-all-agencies').prop('checked', false);
-
+// on creer un bouton pour fermer
 let button = "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>";
+// on ajoute le message de suppression et le bouton
 let result = response.message + button;
+// on affiche le message de suppression en block
 $('.alert-multiple-agencies-delete').css('display', 'block');
 $('.alert-multiple-agencies-delete').html(result);
 }
 },
-error: function (response) {
+// en cas d'erreur
+error: function (response) { // on affiche le message d'erreur
 alert(response.responseJSON.message);
 }
 });
