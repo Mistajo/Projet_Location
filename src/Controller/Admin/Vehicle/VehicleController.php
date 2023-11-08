@@ -145,7 +145,7 @@ class VehicleController extends AbstractController
             // l'entity manager execute la requete
             $em->flush();
             // nous affichons le messade flash
-            $this->addFlash("success", "Le vehicule"  . $vehicle->getname() . " a bien été supprimé.");
+            $this->addFlash("success", "Le vehicule"  . " " . $vehicle->getname() . " " . "a bien été supprimé.");
             // nous redirigeons vers la page d'acceuil des vehicules
             return $this->redirectToRoute("admin.vehicle.index");
         }

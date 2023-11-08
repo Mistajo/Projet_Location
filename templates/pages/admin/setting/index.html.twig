@@ -26,12 +26,12 @@
 				<div class="card-body">
 					<p class="card-text">
 						<strong>
-							<i class="fa-solid fa-at"></i>
+							<i title="E-mail" class="fa-solid fa-at"></i>
 						</strong>:
 						{{setting.email}}</p>
 					<p class="card-text">
 						<strong>
-							<i class="fa-solid fa-phone"></i>
+							<i title="Téléphone" class="fa-solid fa-phone"></i>
 						</strong>:
 						{{setting.phone ?? 'Non renseigné'}}</p>
 					<a class="btn btn-primary" href="{{path('admin.setting.edit', {'id':setting.id})}}">Modifier les paramètres</a>
