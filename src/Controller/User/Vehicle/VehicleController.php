@@ -27,10 +27,8 @@ class VehicleController extends AbstractController
     {
         $vehiclesAvailable = $vehicleRepository->findBY(['isAvailable' => true], ['availableAt' => 'DESC']);
 
-
         $vehicles = $paginator->paginate(
             $vehiclesAvailable,
-
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );

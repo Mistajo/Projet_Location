@@ -21,13 +21,11 @@ class AgencyController extends AbstractController
     public function index(AgencyRepository $agencyRepository, AgencyRepository $agency, PaginatorInterface $paginator, Request $request): Response
     {
         $agency = $agencyRepository->findAll();
-
         $agencies = $paginator->paginate(
             $agency, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             4 /*limit per page*/
         );
-
         return $this->render('pages/user/agency/index.html.twig', [
             'agency' => $agencyRepository->findAll(),
             'agencies' => $agencies,

@@ -3,7 +3,6 @@
 namespace App\Controller\Admin\Comment;
 
 use App\Entity\Comment;
-use App\Entity\Vehicle;
 use App\Repository\AgencyRepository;
 use App\Repository\CommentRepository;
 use App\Repository\VehicleRepository;

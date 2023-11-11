@@ -15,19 +15,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VehicleController extends AbstractController
 {
+    // Route pour la liste des vehicules
     #[Route('/admin/vehicle/list', name: 'admin.vehicle.index')]
     public function index(VehicleRepository $vehicleRepository): Response
     {
+        // On classe les vehicules par date de creation du plus récents au plus ancien
         $vehicles = $vehicleRepository->findby([], ['createdAt' => 'DESC']);
+        // on récupère tout les vehicules
         $vehicles = $vehicleRepository->findAll();
+        // On redirige vers la liste des vehicules
         return $this->render('pages/admin/vehicle/index.html.twig', [
+            // on récupère les vehicules sur la vue
             'vehicles' => $vehicles
         ]);
     }
-
     // La route pour creer un nouveau vehicule
     #[Route('/admin/vehicle/create', name: 'admin.vehicle.create', methods: ['GET', 'POST'])]
-    // on creer la fonction create qui va etre appele par la route
+    // on creer la fonction create qui va etre appelle par la route
     public function create(Request $request, EntityManagerInterface $em, AgencyRepository $agencyRepository): Response
     {
         // si y'a pas d'agence existante
@@ -63,6 +67,7 @@ class VehicleController extends AbstractController
         ]);
     }
 
+    // Route pour rendre un vehicule disponible ou pas
     #[Route('/admin/vehicle/{id}/available', name: 'admin.vehicle.available', methods: ['PUT'])]
     public function available(Vehicle $vehicle, EntityManagerInterface $em, Request $request): Response
     {
@@ -93,39 +98,55 @@ class VehicleController extends AbstractController
         return $this->redirectToRoute("admin.vehicle.index");
     }
 
+    // Route Pour lire la description d'un vehicule
     #[Route('/admin/vehicle/{id}/show', name: 'admin.vehicle.show', methods: ['GET'])]
     public function show(Vehicle $vehicle, AgencyRepository $agencyRepository): Response
     {
+        // Au cas ou aucune agence n'est créer un message flash sera affiché
         if (count($agencyRepository->findAll()) == 0) {
             $this->addFlash('warning', 'Vous devez d\'abord créer des agences');
+            // on redirige l'utilisateur vers la page d'acceuil de la section agency
             return $this->redirectToRoute('admin.agency.index');
         }
+        // on retourne l'utilisateur sur la page de la description
         return $this->render('pages/admin/vehicle/show.html.twig', [
+            // on récupère la catégorie sur la vcue
             'vehicle' => $vehicle,
         ]);
     }
 
+    // Route pour modifier un vehicule
     #[Route('/admin/vehicle/{id}/edit', name: 'admin.vehicle.edit', methods: ['GET', 'PUT'])]
     public function edit(Request $request, Vehicle $vehicle, EntityManagerInterface $em, AgencyRepository $agencyRepository): Response
     {
+        // Au cas ou aucune agence n'est créer un message flash sera affiché
         if (count($agencyRepository->findAll()) == 0) {
             $this->addFlash('warning', 'Vous devez d\'abord créer des agences');
+            // on redirige l'utilisateur vers la page d'acceuil de la section agency
             return $this->redirectToRoute('admin.agency.index');
         }
-
+        // On récupère le formulaire en precisant la methode PUT
         $form = $this->createForm(VehicleFormType::class, $vehicle, [
             'method' => 'PUT'
         ]);
+        // on enregiste la requete
         $form->handleRequest($request);
-
+        // on valide le formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            // l'entity manager execute la requete
+            $em->persist($vehicle);
+            // l'entity manager mets à jour la base de donnée
             $em->flush();
+            // on affiche un message flash
             $this->addFlash("success", "Le vehicule" . " " . $vehicle->getName() . " " . "a bien été modifié.");
+            // On redirige l'utilisateur vers la page d'acceuil de la section vehicle
             return $this->redirectToRoute("admin.vehicle.index");
         }
-
+        // on redirige vers la page de modification du vehicule
         return $this->render('pages/admin/vehicle/edit.html.twig', [
+            // on affiche le formulaire sur la vue
             "form" => $form->createView(),
+            // on récupère la categorie sur la vue
             'vehicle' => $vehicle,
         ]);
     }
