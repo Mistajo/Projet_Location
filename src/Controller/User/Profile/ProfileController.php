@@ -84,7 +84,6 @@ class ProfileController extends AbstractController
         if ($this->isCsrfTokenValid("profile-delete", $request->request->get('csrf_token'))) {
             $user = $this->getUser();
 
-
             $em->remove($user);
             $em->flush();
 

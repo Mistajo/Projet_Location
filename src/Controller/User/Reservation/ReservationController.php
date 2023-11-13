@@ -2,10 +2,11 @@
 
 namespace App\Controller\User\Reservation;
 
-use App\Entity\Vehicle;
+
 use App\Entity\Reservation;
 use App\Repository\AgencyRepository;
 use App\Repository\VehicleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,5 +44,17 @@ class ReservationController extends AbstractController
             'reservation' => $reservation,
             'vehicle' => $vehicleRepository->findAll(),
         ]);
+    }
+
+    #[Route('/user/reservation/{id}/delete', name: 'user.reservation.delete', methods: ['DELETE'])]
+    public function delete(Reservation $reservation, EntityManagerInterface $em, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid("delete_reservation_" . $reservation->getId(), $request->request->get("csrf_token"))) {
+            $em->remove($reservation);
+            $em->flush();
+            $this->addFlash("success", "La réservation a bien été annulée.");
+            return $this->redirectToRoute("user.reservation.index");
+        }
+        return $this->redirectToRoute("user.reservation.index");
     }
 }

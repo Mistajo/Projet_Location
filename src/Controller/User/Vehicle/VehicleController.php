@@ -64,7 +64,7 @@ class VehicleController extends AbstractController
         ]);
     }
 
-    #[Route('/user/vehicles/filter-by-category/{id}', name: 'user.vehicles.filter_by_agency', methods: ['GET'])]
+    #[Route('/user/vehicles/filter-by-vehicle/{id}', name: 'user.vehicles.filter_by_agency', methods: ['GET'])]
     public function filterByAgency(Agency $agency, AgencyRepository $agencyRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $agencies = $agencyRepository->findAll();
@@ -72,7 +72,6 @@ class VehicleController extends AbstractController
 
         $vehicles = $paginator->paginate(
             $vehiclesAvailable,
-
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
@@ -85,7 +84,7 @@ class VehicleController extends AbstractController
     #[Route('/user/vehicle/{id}/like', name: 'user.vehicle.like', methods: ['GET'])]
     public function like(Vehicle $vehicle, LikeRepository $likeRepository, EntityManagerInterface $em): Response
     {
-        //Récuperons l'utilisateur censé etre connecté
+        //Récuperons l'utilisateur connecté
         $user = $this->getUser();
         $agency = $vehicle->getAgency();
 

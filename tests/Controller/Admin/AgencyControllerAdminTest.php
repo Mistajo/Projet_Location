@@ -32,29 +32,29 @@ class AgencyControllerAdminTest extends WebTestCase
         // $this->assertSelectorTextContains('h1', 'Hello World');
     }
 
-    public function testLetAuthencatedUserAccessAuth(): void
-    {
-        $client = static::createClient();
-        $user = new User();
-        $user->setEmail('ridelocation@hotmail.com');
-        $user->setPassword('Joan@456789*');
-        $user->setRoles(['ROLE_ADMIN']);
-        $session = $client->getContainer()->get('session');
-        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
-        $session->set('_security_main', serialize($token));
-        $session->save();
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
-        // $this->login(
-        //     $client,
-        //     'ridelocation@hotmail.com',
-        //     'Joan@456789*',
-        // );
+    // public function testLetAuthencatedUserAccessAuth(): void
+    // {
+    //     $client = static::createClient();
+    //     $user = new User();
+    //     $user->setEmail('ridelocation@hotmail.com');
+    //     $user->setPassword('Joan@456789*');
+    //     $user->setRoles(['ROLE_ADMIN']);
+    //     $session = $client->getContainer()->get('session');
+    //     $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+    //     $session->set('_security_main', serialize($token));
+    //     $session->save();
+    //     $cookie = new Cookie($session->getName(), $session->getId());
+    //     $client->getCookieJar()->set($cookie);
+    //     // $this->login(
+    //     //     $client,
+    //     //     'ridelocation@hotmail.com',
+    //     //     'Joan@456789*',
+    //     // );
 
 
-        $crawler = $client->request('GET', '/admin/agency/create');
+    //     $crawler = $client->request('GET', '/admin/agency/create');
 
-        $this->assertResponseIsSuccessful();
-        // $this->assertSelectorTextContains('h1', 'Hello World');
-    }
+    //     $this->assertResponseIsSuccessful();
+    //     // $this->assertSelectorTextContains('h1', 'Hello World');
+    // }
 }

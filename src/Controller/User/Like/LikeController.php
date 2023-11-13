@@ -24,7 +24,6 @@ class LikeController extends AbstractController
         );
         $likes = $paginator->paginate(
             $like,
-
             $request->query->getInt('page', 1), /*page number*/
             5 /*limit per page*/
         );
