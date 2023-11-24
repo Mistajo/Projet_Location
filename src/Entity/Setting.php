@@ -31,7 +31,7 @@ class Setting
         match: true,
         message: 'Le numéro de téléphone n\'est pas valide.'
     )]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     #[Gedmo\Timestampable(on: 'create')]

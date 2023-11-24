@@ -65,7 +65,6 @@ class AgencyController extends AbstractController
         //Récuperons l'utilisateur censé etre connecté
         $user = $this->getUser();
 
-
         //Vérifions, Si l'article a déja été aimé par l'utilisateur connecté,
         if ($agency->isLikedBy($user)) {
 
