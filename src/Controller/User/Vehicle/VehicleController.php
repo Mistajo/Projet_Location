@@ -3,21 +3,30 @@
 namespace App\Controller\User\Vehicle;
 
 
+use Stripe\Price;
+use Stripe\Stripe;
 use App\Entity\Like;
+use App\Entity\User;
 use App\Entity\Agency;
 use App\Entity\Comment;
+use App\Entity\Payment;
 use App\Entity\Vehicle;
 use App\Entity\Reservation;
+use Stripe\Checkout\Session;
 use App\Form\CommentFormType;
 use App\Form\ReservationFormType;
 use App\Repository\LikeRepository;
 use App\Repository\AgencyRepository;
 use App\Repository\VehicleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ReservationRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VehicleController extends AbstractController
@@ -163,15 +172,146 @@ class VehicleController extends AbstractController
             } else {
                 $em->persist($reservation);
                 $em->flush();
-                $this->addFlash("success", "Votre reservation pour le vehicule" . " " . $vehicle->getName() . " " . "pour un montant de " . " " . $reservation->getTotalPrice() . " " . "€" . " " . "a été enregistrée." . " " . "Rendez-Vous à votre agence pour le retrait et le reglement");
-                return $this->redirectToRoute('user.vehicle.index');
+                return $this->redirectToRoute('user.vehicle.payment.stripe', ['reservationid' => $reservation->getId()]);
             }
         }
-
         return $this->render('pages/user/vehicle/reservation.html.twig', [
             'vehicle' => $vehicle,
+            'reservation' => $reservation,
             'form' => $form->createView(),
 
         ]);
+    }
+
+    #[Route('/user/reservation/{reservationid}/create-session-stripe', name: 'user.vehicle.payment.stripe')]
+    public function StripePayment($reservationid, EntityManagerInterface $em, UrlGeneratorInterface $generator): RedirectResponse
+    {
+        $reservationRepository = $em->getRepository(Reservation::class);
+        $reservation = $reservationRepository->find($reservationid);
+        if (!$reservation) {
+            throw $this->createNotFoundException("La réservation demandée n'existe pas.");
+        }
+        Stripe::setApiKey(apiKey: 'sk_test_51OEv73JVomzWvXK9tsoMDu8vvpeHmD4gE1VMlBS0LgD43FHop2HztLMJwCr38Rl2ayVLvYUMpskFUwjDUzkkDAIi00UQjjay9u');
+        $price = Price::create([
+            'unit_amount' => $reservation->getTotalPrice() * 100, // Total amount multiplied by 100 (in cents)
+            'currency' => 'EUR', // Use your preferred currency (e.g., 'eur', 'usd')
+            'product_data' => [
+                'name' => 'Réservation de véhicule #' . $reservation->getId(),
+            ],
+        ]);
+        $checkout_session = Session::create([
+            'payment_method_types' => ['card'],
+            'mode' => 'payment',
+            'line_items' => [[
+                'price' => $price->id,
+                'quantity' => 1,
+            ]],
+            'success_url' => $generator->generate('user.payment.success', [
+                'reservationid' => $reservation->getId(),
+                'userid' => $reservation->getUser()->getId(),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
+
+            'cancel_url' => $generator->generate('user.payment.error', [
+                'reservationid' => $reservation->getId(),
+                'userid' => $reservation->getUser()->getId(),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
+        return new RedirectResponse($checkout_session->url);
+    }
+
+    #[Route('/user/reservation/{reservationid}/success', name: 'user.payment.success')]
+    public function paymentSuccess($reservationid, EntityManagerInterface $em, AgencyRepository $agency, VehicleRepository $vehicleRepository, Request $request, PaginatorInterface $paginator)
+    {
+        $vehiclesAvailable = $vehicleRepository->findBY(['isAvailable' => true], ['availableAt' => 'DESC']);
+
+        $vehicles = $paginator->paginate(
+            $vehiclesAvailable,
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        $payment = $em->getRepository(Payment::class)->findOneBy(
+            ['reservation' =>
+            $reservationid]
+        );
+        $reservation = $em->getRepository(Reservation::class)->find($reservationid);
+        $totalPrice = $reservation->getTotalPrice();
+
+        $payment = new Payment();
+
+        $payment->setUser($this->getUser());
+        $payment->setTotalPrice($totalPrice);
+        $payment->setMethodOfPayment('Card');
+        $payment->setReservation($reservation);
+        $reservation->setPaymentStatus('Payée');
+        $PaymentStatus = $reservation->getPaymentStatus();
+        // Vérifier si le paiement est un succès
+        if ($PaymentStatus === 'Payée') {
+            $em->persist($payment);
+            $em->persist($reservation);
+            $em->flush();
+            // Ajouter le message flash
+            $this->addFlash("success", "Merci pour votre réservation. Rendez-vous dans votre agence pour récupérer votre véhicule");
+            // Rediriger vers une autre page
+            return $this->redirectToRoute('user.vehicle.index');
+        }
+
+        // Si le paiement n'est pas un succès, vous pouvez également afficher un message flash pour indiquer l'échec
+        $this->addFlash('error', "Votre Paiement à échoué. Merci de réassayer");
+        // Rediriger vers une autre page
+        return $this->redirectToRoute('user.vehicle.payment.stripe');
+
+        return $this->render('pages/user/vehicle/index.html.twig', [
+            'agencies' => $agency->findAll(),
+            'vehicles' => $vehicles,
+        ]);
+    }
+
+    #[Route('/user/reservation/{reservationid}/error', name: 'user.payment.error')]
+    public function paymentError($reservationid, EntityManagerInterface $em, AgencyRepository $agency, VehicleRepository $vehicleRepository, Request $request, PaginatorInterface $paginator)
+    {
+        $vehiclesAvailable = $vehicleRepository->findBY(['isAvailable' => true], ['availableAt' => 'DESC']);
+
+        $vehicles = $paginator->paginate(
+            $vehiclesAvailable,
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+        $payment = $em->getRepository(Payment::class)->findOneBy(
+            ['reservation' =>
+            $reservationid]
+        );
+        $reservation = $em->getRepository(Reservation::class)->find($reservationid);
+        $totalPrice = $reservation->getTotalPrice();
+
+        $payment = new Payment();
+
+        $payment->setUser($this->getUser());
+        $payment->setTotalPrice($totalPrice);
+        $payment->setMethodOfPayment('Card');
+        $payment->setReservation($reservation);
+        $reservation->setPaymentStatus('Non payée');
+        $PaymentStatus = $reservation->getPaymentStatus();
+        // Vérifier si le paiement est un succès
+        if ($PaymentStatus === 'Payée') {
+            $em->persist($payment);
+            $em->persist($reservation);
+            $em->flush();
+            // Ajouter le message flash
+            $this->addFlash("success", "Merci pour votre réservation. Rendez-vous dans votre agence pour récupérer votre véhicule");
+            // Rediriger vers une autre page
+            return $this->redirectToRoute('user.vehicle.index');
+        }
+
+        // Si le paiement n'est pas un succès, vous pouvez également afficher un message flash pour indiquer l'échec
+        $this->addFlash('error', "Votre Paiement à échoué. Merci de réassayer");
+        // Rediriger vers une autre page
+        return $this->redirectToRoute('user.vehicle.index');
+
+        return $this->render('pages/user/vehicle/index.html.twig', [
+            'agencies' => $agency->findAll(),
+            'vehicles' => $vehicles,
+        ]);
+
+        return $this->render('pages/user/vehicle/recap_reservation.html.twig', []);
     }
 }

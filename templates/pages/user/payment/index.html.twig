@@ -1,0 +1,25 @@
+{% extends 'themes/base_user.html.twig' %}
+
+{% block title %}
+	- User - Mes Likes
+	{{app.user.firstName}}
+	{{app.user.lastName}}
+{% endblock %}
+
+{% block description %}
+	<meta name="description" content="Bienvenue sur notre page d'affichage des likes de l'utilisateur. La société Ride-Location vous propose des locations de voitures en click en collect. Cette sociétéé est détenu pas Monsieur Dwayne Johnson. Nous avons plusieurs agences en France.Venez faire un tour sur notre site, on a ce qu'il vous faut.">
+{% endblock %}
+
+
+{% block main %}
+	<main class="my-3">
+
+		<h1 class="text-center my-3 display-5">Mes Paiements :
+			{{app.user.firstName}}
+			{{app.user.lastName}}</h1>
+
+
+	</main>
+
+
+{% endblock %}

@@ -56,7 +56,7 @@
 										<div class=" my-2 d-flex justify-content-between">
 											<a href="{{path('user.reservation.show', {'id': reservation.id})}}" class="btn btn-primary">Détails</a>
 
-											<a href="#" class="btn btn-danger ms-auto" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette réservation?') && document.querySelector('#form_delete_reservation_{{reservation.id}}').submit()" title="Supprimer">Supprimer</a>
+											<a href="#" class="btn btn-danger ms-auto" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette réservation?') && document.querySelector('#form_delete_reservation_{{reservation.id}}').submit()" title="Annulation">Annulation</a>
 											<form method="POST" id="form_delete_reservation_{{reservation.id}}" action="{{path('user.reservation.delete', {'id':reservation.id})}}">
 												<input type="hidden" name="csrf_token" value="{{csrf_token('delete_reservation_'~reservation.id)}}">
 												<input type="hidden" name="_method" value="delete">
@@ -83,8 +83,6 @@
 			</div>
 
 		{% endif %}
-
-
 	</div>
 
 

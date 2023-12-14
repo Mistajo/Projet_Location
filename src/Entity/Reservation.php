@@ -6,6 +6,9 @@ namespace App\Entity;
 
 use DateTime;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\ReservationRepository;
@@ -54,6 +57,21 @@ class Reservation
     #[Assert\GreaterThan(0)]
     #[ORM\Column(nullable: true)]
     private ?float $dailyPrice = null;
+
+    #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: Payment::class)]
+    private Collection $payments;
+
+    #[ORM\Column(length: 255)]
+    private ?string $PaymentStatus = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $reason = null;
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+        $this->PaymentStatus = 'Non Payée';
+    }
 
     public function getId(): ?int
     {
@@ -165,6 +183,60 @@ class Reservation
     public function setDailyPrice(?float $dailyPrice): static
     {
         $this->dailyPrice = $dailyPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getReservation() === $this) {
+                $payment->setReservation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPaymentStatus(): ?string
+    {
+        return $this->PaymentStatus;
+    }
+
+    public function setPaymentStatus(string $PaymentStatus): static
+    {
+        $this->PaymentStatus = $PaymentStatus;
+
+        return $this;
+    }
+
+    public function getReason(): ?string
+    {
+        return $this->reason;
+    }
+
+    public function setReason(?string $reason): static
+    {
+        $this->reason = $reason;
 
         return $this;
     }
